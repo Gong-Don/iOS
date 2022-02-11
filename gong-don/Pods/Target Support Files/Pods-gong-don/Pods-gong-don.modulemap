@@ -1,0 +1,6 @@
+framework module Pods_gong_don {
+  umbrella header "Pods-gong-don-umbrella.h"
+
+  export *
+  module * { export * }
+}
