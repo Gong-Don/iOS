@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		6B228D5427B655BA00B016A4 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B228D5327B655BA00B016A4 /* SignInView.swift */; };
+		6B228D5827B78DED00B016A4 /* ViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B228D5727B78DED00B016A4 /* ViewProtocol.swift */; };
+		6B228D5B27B7922600B016A4 /* AppLogoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B228D5A27B7922600B016A4 /* AppLogoLabel.swift */; };
+		6B228D5D27B8D6AF00B016A4 /* UIColor++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B228D5C27B8D6AF00B016A4 /* UIColor++.swift */; };
+		6B228D5F27B8DFA400B016A4 /* UITextField++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B228D5E27B8DFA400B016A4 /* UITextField++.swift */; };
+		6B228D6727B9054300B016A4 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B228D6627B9054300B016A4 /* SignUpView.swift */; };
+		6B228D6927BA3A5B00B016A4 /* test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B228D6827BA3A5B00B016A4 /* test.storyboard */; };
+		6B228D6B27BA468200B016A4 /* UIViewController++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B228D6A27BA468200B016A4 /* UIViewController++.swift */; };
+		6B228D6E27BA4FC500B016A4 /* SignTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B228D6D27BA4FC500B016A4 /* SignTextField.swift */; };
+		6B228D7227BA5F9200B016A4 /* UIButton++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B228D7127BA5F9200B016A4 /* UIButton++.swift */; };
 		6B3F564927B64A0400C9A8D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3F564827B64A0400C9A8D4 /* AppDelegate.swift */; };
 		6B3F564B27B64A0400C9A8D4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3F564A27B64A0400C9A8D4 /* SceneDelegate.swift */; };
 		6B3F565227B64A0400C9A8D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B3F565127B64A0400C9A8D4 /* Assets.xcassets */; };
@@ -19,6 +28,15 @@
 		1EDCBD4D930E4B8AC1B52552 /* Pods-gong-don.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gong-don.release.xcconfig"; path = "Target Support Files/Pods-gong-don/Pods-gong-don.release.xcconfig"; sourceTree = "<group>"; };
 		5151E50E772976D717049611 /* Pods-gong-don.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gong-don.debug.xcconfig"; path = "Target Support Files/Pods-gong-don/Pods-gong-don.debug.xcconfig"; sourceTree = "<group>"; };
 		6B228D5327B655BA00B016A4 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		6B228D5727B78DED00B016A4 /* ViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewProtocol.swift; sourceTree = "<group>"; };
+		6B228D5A27B7922600B016A4 /* AppLogoLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogoLabel.swift; sourceTree = "<group>"; };
+		6B228D5C27B8D6AF00B016A4 /* UIColor++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor++.swift"; sourceTree = "<group>"; };
+		6B228D5E27B8DFA400B016A4 /* UITextField++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField++.swift"; sourceTree = "<group>"; };
+		6B228D6627B9054300B016A4 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		6B228D6827BA3A5B00B016A4 /* test.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = test.storyboard; sourceTree = "<group>"; };
+		6B228D6A27BA468200B016A4 /* UIViewController++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController++.swift"; sourceTree = "<group>"; };
+		6B228D6D27BA4FC500B016A4 /* SignTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignTextField.swift; sourceTree = "<group>"; };
+		6B228D7127BA5F9200B016A4 /* UIButton++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton++.swift"; sourceTree = "<group>"; };
 		6B3F564527B64A0400C9A8D4 /* gong-don.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "gong-don.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B3F564827B64A0400C9A8D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B3F564A27B64A0400C9A8D4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +83,43 @@
 			path = SignIn;
 			sourceTree = "<group>";
 		};
+		6B228D5627B78D8B00B016A4 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				6B228D5727B78DED00B016A4 /* ViewProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		6B228D5927B7917500B016A4 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				6B228D6C27BA4F6F00B016A4 /* CustomUI */,
+				6B228D5C27B8D6AF00B016A4 /* UIColor++.swift */,
+				6B228D5E27B8DFA400B016A4 /* UITextField++.swift */,
+				6B228D6A27BA468200B016A4 /* UIViewController++.swift */,
+				6B228D7127BA5F9200B016A4 /* UIButton++.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		6B228D6527B9052700B016A4 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				6B228D6627B9054300B016A4 /* SignUpView.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		6B228D6C27BA4F6F00B016A4 /* CustomUI */ = {
+			isa = PBXGroup;
+			children = (
+				6B228D5A27B7922600B016A4 /* AppLogoLabel.swift */,
+				6B228D6D27BA4FC500B016A4 /* SignTextField.swift */,
+			);
+			path = CustomUI;
+			sourceTree = "<group>";
+		};
 		6B3F563C27B64A0300C9A8D4 = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +144,7 @@
 				6B3F566027B6501F00C9A8D4 /* Source */,
 				6B3F565F27B6500000C9A8D4 /* Resource */,
 				6B3F565627B64A0400C9A8D4 /* Info.plist */,
+				6B228D6827BA3A5B00B016A4 /* test.storyboard */,
 			);
 			path = "gong-don";
 			sourceTree = "<group>";
@@ -105,6 +161,8 @@
 		6B3F566027B6501F00C9A8D4 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				6B228D5927B7917500B016A4 /* Extension */,
+				6B228D5627B78D8B00B016A4 /* Protocols */,
 				6B3F566327B6524C00C9A8D4 /* Models */,
 				6B3F566227B6520D00C9A8D4 /* ViewModels */,
 				6B3F566127B6520700C9A8D4 /* VIews */,
@@ -117,6 +175,7 @@
 		6B3F566127B6520700C9A8D4 /* VIews */ = {
 			isa = PBXGroup;
 			children = (
+				6B228D6527B9052700B016A4 /* SignUp */,
 				6B228D5227B6559700B016A4 /* SignIn */,
 			);
 			path = VIews;
@@ -197,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B3F565527B64A0400C9A8D4 /* LaunchScreen.storyboard in Resources */,
+				6B228D6927BA3A5B00B016A4 /* test.storyboard in Resources */,
 				6B3F565227B64A0400C9A8D4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,9 +310,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B228D5F27B8DFA400B016A4 /* UITextField++.swift in Sources */,
 				6B228D5427B655BA00B016A4 /* SignInView.swift in Sources */,
 				6B3F564927B64A0400C9A8D4 /* AppDelegate.swift in Sources */,
+				6B228D5827B78DED00B016A4 /* ViewProtocol.swift in Sources */,
+				6B228D6727B9054300B016A4 /* SignUpView.swift in Sources */,
+				6B228D5B27B7922600B016A4 /* AppLogoLabel.swift in Sources */,
+				6B228D7227BA5F9200B016A4 /* UIButton++.swift in Sources */,
+				6B228D6E27BA4FC500B016A4 /* SignTextField.swift in Sources */,
 				6B3F564B27B64A0400C9A8D4 /* SceneDelegate.swift in Sources */,
+				6B228D5D27B8D6AF00B016A4 /* UIColor++.swift in Sources */,
+				6B228D6B27BA468200B016A4 /* UIViewController++.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
