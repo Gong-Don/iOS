@@ -12,37 +12,39 @@ class SignUpView: UIViewController, ViewProtocol {
 
     let appLogoLabel: AppLogoLabel = AppLogoLabel()
     
-    lazy var emailTextField: SignTextField = {
-        let emailTextField = SignTextField()
+    let emailTextField: UnderLineTextField = {
+        let emailTextField = UnderLineTextField()
         emailTextField.placeholder = "이메일"
         return emailTextField
     }()
     
-    lazy var emailAuthBtn: UIButton = {
+    let emailAuthBtn: UIButton = {
         let emailAuthBtn = UIButton(color: .blue01, radius: 15)
-        emailAuthBtn.setDetailTitle(title: "이메일 인증", color: .white)
+        emailAuthBtn.setDetailTitle(title: "이메일 인증", color: .white, weight: .semibold)
         return emailAuthBtn
     }()
     
-    lazy var pwTextField: SignTextField = {
-        let pwTextField = SignTextField()
+    let pwTextField: UnderLineTextField = {
+        let pwTextField = UnderLineTextField()
         pwTextField.placeholder = "비밀번호"
+        pwTextField.isSecureTextEntry = true
         return pwTextField
     }()
     
-    lazy var checkPwTextField: SignTextField = {
-        let checkPwTextField = SignTextField()
+    let checkPwTextField: UnderLineTextField = {
+        let checkPwTextField = UnderLineTextField()
         checkPwTextField.placeholder = "비밀번호 확인"
+        checkPwTextField.isSecureTextEntry = true
         return checkPwTextField
     }()
     
-    lazy var nicknameTextField: SignTextField = {
-        let nicknameTextField = SignTextField()
+    let nicknameTextField: UnderLineTextField = {
+        let nicknameTextField = UnderLineTextField()
         nicknameTextField.placeholder = "닉네임"
         return nicknameTextField
     }()
     
-    lazy var signUpBtn: UIButton = {
+    let signUpBtn: UIButton = {
         let signUpBtn = UIButton(color: .blue02)
         signUpBtn.setDetailTitle(title: "회원가입", color: .white, size: 17, weight: .bold)
         return signUpBtn
@@ -57,8 +59,8 @@ class SignUpView: UIViewController, ViewProtocol {
         self.setConstraints()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         _ = [
             self.emailTextField,
@@ -70,15 +72,20 @@ class SignUpView: UIViewController, ViewProtocol {
         }
     }
     
-    // MARK: - View Setting Mathods
+    // MARK: - Action Setting Methods
+    func setAction() {
+        
+    }
+    
+    // MARK: - View Setting Methods
     func setUpValue() {
         self.view.backgroundColor = .white
-        self.navigationItem.titleView = self.appLogoLabel
-        self.navigationController?.navigationBar.topItem?.backButtonTitle = "로그인"
+        self.title = "회원가입"
     }
 
     func setUpView() {
         _ = [
+            self.appLogoLabel,
             self.emailTextField,
             self.emailAuthBtn,
             self.pwTextField,
@@ -94,37 +101,50 @@ class SignUpView: UIViewController, ViewProtocol {
         let leftMargin: CGFloat = 40
         let rightMargin: CGFloat = -40
         let textFieldSpacing: CGFloat = 80
+        let emailAutnBtnWidth: CGFloat = 90
         
-        self.emailTextField.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(220)
-            make.leading.equalToSuperview().offset(leftMargin)
-            make.trailing.equalTo(self.emailAuthBtn).offset(-5)
+        // Logo
+        self.appLogoLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(150)
+            make.centerX.equalToSuperview()
         }
         
+        // Email
+        self.emailTextField.snp.makeConstraints { make in
+            make.top.equalTo(self.appLogoLabel).offset(100)
+            make.leading.equalToSuperview().offset(leftMargin)
+            make.trailing.equalTo(self.emailAuthBtn).offset(-emailAutnBtnWidth)
+        }
+        
+        // Email Auth
         self.emailAuthBtn.snp.makeConstraints{ make in
             make.centerY.equalTo(self.emailTextField)
             make.trailing.equalToSuperview().offset(rightMargin)
-            make.width.width.equalTo(90)
+            make.width.width.equalTo(emailAutnBtnWidth)
         }
         
+        // Password
         self.pwTextField.snp.makeConstraints { make in
             make.top.equalTo(self.emailTextField).offset(textFieldSpacing)
             make.leading.equalToSuperview().offset(leftMargin)
             make.trailing.equalToSuperview().offset(rightMargin)
         }
         
+        // Password Check
         self.checkPwTextField.snp.makeConstraints { make in
             make.top.equalTo(self.pwTextField).offset(textFieldSpacing)
             make.leading.equalToSuperview().offset(leftMargin)
             make.trailing.equalToSuperview().offset(rightMargin)
         }
         
+        // Nickname
         self.nicknameTextField.snp.makeConstraints { make in
             make.top.equalTo(self.checkPwTextField).offset(textFieldSpacing)
             make.leading.equalToSuperview().offset(leftMargin)
             make.trailing.equalToSuperview().offset(rightMargin)
         }
         
+        // Sign Up
         self.signUpBtn.snp.makeConstraints { make in
             make.top.equalTo(self.nicknameTextField).offset(100)
             make.width.equalTo(300)
