@@ -1,5 +1,5 @@
 //
-//  MainView.swift
+//  HomeView.swift
 //  gong-don
 //
 //  Created by 김동규 on 2022/02/14.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainView: UIViewController, ViewProtocol {
+class HomeView: UIViewController, ViewProtocol {
     let viewSideMargin: CGFloat = 40
     let celllineSpacing: CGFloat = 16
     
@@ -118,7 +118,7 @@ class MainView: UIViewController, ViewProtocol {
 
 
  // MARK: - UICollection
-extension MainView: UICollectionViewDelegate, UICollectionViewDataSource {
+extension HomeView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10

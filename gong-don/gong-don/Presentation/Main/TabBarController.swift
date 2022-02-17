@@ -17,7 +17,7 @@ class TabBarController: UITabBarController {
     }
     
     func setInstance() {
-        let firstTab = MainView()
+        let firstTab = HomeView()
         let secondTab = TaskListView()
         let thirdTab = ProfileView()
         
