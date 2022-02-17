@@ -91,4 +91,6 @@ iOSInjectionProject/
 
 Pods/
 Podfile.lock
+
+.DS_Store
 */.DS_Store
