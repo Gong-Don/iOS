@@ -29,12 +29,12 @@
 		6B3F564B27B64A0400C9A8D4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3F564A27B64A0400C9A8D4 /* SceneDelegate.swift */; };
 		6B3F565227B64A0400C9A8D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B3F565127B64A0400C9A8D4 /* Assets.xcassets */; };
 		6B3F565527B64A0400C9A8D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B3F565327B64A0400C9A8D4 /* LaunchScreen.storyboard */; };
-		6BFCD64827BE513300ADE840 /* SignInModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFCD64727BE513300ADE840 /* SignInModel.swift */; };
-		6BFCD64A27BE522F00ADE840 /* SignUpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFCD64927BE522F00ADE840 /* SignUpModel.swift */; };
+		6B7A1EED27C4E3F200AA858F /* RequestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7A1EEC27C4E3F200AA858F /* RequestData.swift */; };
+		6BA6D47227BE918700690050 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA6D47127BE918700690050 /* SignInViewModel.swift */; };
+		6BFCD64A27BE522F00ADE840 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFCD64927BE522F00ADE840 /* UserModel.swift */; };
 		6BFCD64D27BE544F00ADE840 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFCD64C27BE544F00ADE840 /* UserService.swift */; };
 		6BFCD64F27BE582200ADE840 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFCD64E27BE582200ADE840 /* APIConstants.swift */; };
 		6BFCD65127BE596600ADE840 /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFCD65027BE596600ADE840 /* NetworkResult.swift */; };
-		6BFCD65327BE5D2D00ADE840 /* GenericResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFCD65227BE5D2D00ADE840 /* GenericResponse.swift */; };
 		6BFCD65527BE788400ADE840 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFCD65427BE788400ADE840 /* SignUpViewModel.swift */; };
 		AC623F537DB1C060040EE7B0 /* Pods_gong_don.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBA1AE2C9882734300514E87 /* Pods_gong_don.framework */; };
 /* End PBXBuildFile section */
@@ -66,12 +66,12 @@
 		6B3F565127B64A0400C9A8D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B3F565427B64A0400C9A8D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B3F565627B64A0400C9A8D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6BFCD64727BE513300ADE840 /* SignInModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModel.swift; sourceTree = "<group>"; };
-		6BFCD64927BE522F00ADE840 /* SignUpModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpModel.swift; sourceTree = "<group>"; };
+		6B7A1EEC27C4E3F200AA858F /* RequestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestData.swift; sourceTree = "<group>"; };
+		6BA6D47127BE918700690050 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		6BFCD64927BE522F00ADE840 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		6BFCD64C27BE544F00ADE840 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		6BFCD64E27BE582200ADE840 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		6BFCD65027BE596600ADE840 /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
-		6BFCD65227BE5D2D00ADE840 /* GenericResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericResponse.swift; sourceTree = "<group>"; };
 		6BFCD65427BE788400ADE840 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		DBA1AE2C9882734300514E87 /* Pods_gong_don.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gong_don.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -175,8 +175,7 @@
 		6B3F566327B6524C00C9A8D4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				6BFCD64727BE513300ADE840 /* SignInModel.swift */,
-				6BFCD64927BE522F00ADE840 /* SignUpModel.swift */,
+				6BFCD64927BE522F00ADE840 /* UserModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -187,7 +186,7 @@
 				6BFCD64C27BE544F00ADE840 /* UserService.swift */,
 				6BFCD64E27BE582200ADE840 /* APIConstants.swift */,
 				6BFCD65027BE596600ADE840 /* NetworkResult.swift */,
-				6BFCD65227BE5D2D00ADE840 /* GenericResponse.swift */,
+				6B7A1EEC27C4E3F200AA858F /* RequestData.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -218,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				6B228D5327B655BA00B016A4 /* SignInView.swift */,
+				6BA6D47127BE918700690050 /* SignInViewModel.swift */,
 			);
 			path = SignIn;
 			sourceTree = "<group>";
@@ -379,7 +379,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BFCD65327BE5D2D00ADE840 /* GenericResponse.swift in Sources */,
 				6B228D7727BB7BCB00B016A4 /* CustomSearchBar.swift in Sources */,
 				6B228D8527BCEA7600B016A4 /* UITabBar++.swift in Sources */,
 				6BFCD64F27BE582200ADE840 /* APIConstants.swift in Sources */,
@@ -387,11 +386,11 @@
 				6B228D7527BA97D800B016A4 /* HomeView.swift in Sources */,
 				6B228D7B27BBA32A00B016A4 /* TabBarController.swift in Sources */,
 				6B228D5427B655BA00B016A4 /* SignInView.swift in Sources */,
+				6B7A1EED27C4E3F200AA858F /* RequestData.swift in Sources */,
 				6BFCD64D27BE544F00ADE840 /* UserService.swift in Sources */,
 				6B228D8327BCEA3F00B016A4 /* CALayer++.swift in Sources */,
 				6B228D7927BBA0B300B016A4 /* TaskCell.swift in Sources */,
 				6B3F564927B64A0400C9A8D4 /* AppDelegate.swift in Sources */,
-				6BFCD64827BE513300ADE840 /* SignInModel.swift in Sources */,
 				6B228D5827B78DED00B016A4 /* ViewProtocol.swift in Sources */,
 				6BFCD65527BE788400ADE840 /* SignUpViewModel.swift in Sources */,
 				6B228D7E27BCE73100B016A4 /* ProfileView.swift in Sources */,
@@ -399,9 +398,10 @@
 				6BFCD65127BE596600ADE840 /* NetworkResult.swift in Sources */,
 				6B228D5B27B7922600B016A4 /* AppLogoLabel.swift in Sources */,
 				6B228D7227BA5F9200B016A4 /* UIButton++.swift in Sources */,
-				6BFCD64A27BE522F00ADE840 /* SignUpModel.swift in Sources */,
+				6BFCD64A27BE522F00ADE840 /* UserModel.swift in Sources */,
 				6B228D8127BCE76300B016A4 /* TaskListView.swift in Sources */,
 				6B228D6E27BA4FC500B016A4 /* UnderLineTextField.swift in Sources */,
+				6BA6D47227BE918700690050 /* SignInViewModel.swift in Sources */,
 				6B3F564B27B64A0400C9A8D4 /* SceneDelegate.swift in Sources */,
 				6B228D5D27B8D6AF00B016A4 /* UIColor++.swift in Sources */,
 				6B228D6B27BA468200B016A4 /* UIViewController++.swift in Sources */,

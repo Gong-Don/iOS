@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Then
 
 class HomeView: UIViewController, ViewProtocol {
     let viewSideMargin: CGFloat = 40
@@ -13,13 +14,11 @@ class HomeView: UIViewController, ViewProtocol {
     
     let appLogoLabel: AppLogoLabel = AppLogoLabel()
     
-    let subTitleLabel: UILabel = {
-        let subTitleLabel = UILabel()
-        subTitleLabel.text = "공부하면서 돈벌자"
-        subTitleLabel.textColor = .systemGray
-        subTitleLabel.font = UIFont.systemFont(ofSize: 17)
-        return subTitleLabel
-    }()
+    let subTitleLabel = UILabel().then {
+        $0.text = "공부하면서 돈벌자"
+        $0.textColor = .systemGray
+        $0.font = UIFont.systemFont(ofSize: 17)
+    }
     
     let searchBar: CustomSearchBar = CustomSearchBar()
     
@@ -40,13 +39,11 @@ class HomeView: UIViewController, ViewProtocol {
         }
     }
     
-    let addBtn: UIButton = {
-        let addBtn = UIButton()
-        addBtn.tintColor = .blue01
-        addBtn.setImage(UIImage(systemName: "plus.circle"), for: .normal)
-        addBtn.setPreferredSymbolConfiguration(.init(pointSize: 30, weight: .semibold, scale: .large), forImageIn: .normal)
-        return addBtn
-    }()
+    let addBtn = UIButton().then {
+        $0.tintColor = .blue01
+        $0.setImage(UIImage(systemName: "plus.circle"), for: .normal)
+        $0.setPreferredSymbolConfiguration(.init(pointSize: 30, weight: .semibold, scale: .large), forImageIn: .normal)
+    }
     
     // MARK: - Life Cycle
     override func viewDidLoad() {

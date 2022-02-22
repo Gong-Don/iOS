@@ -8,62 +8,36 @@
 import Foundation
 import Alamofire
 
-protocol UserServiceProtocol {
-    
-}
-
 struct UserService {
-    static let userShared = UserService()
+    static let shared = UserService()
     
     func signIn(email: String,
                 password: String,
                 completion: @escaping (NetworkResult<Any>) -> Void) {
         
         let url = APIConstants.userSignInURL
-        let header: HTTPHeaders = [
-            "Content-Type":"application/json",
-            "Authorization": UserDefaults.standard.string(forKey: "token") ?? ""
-        ]
         let body: Parameters = [
             "email": email,
             "password":password
         ]
         
-        let dataRequest = AF.request(url, method: .post, parameters: body,
-                                     encoding: URLEncoding.default, headers: header)
-        
-        dataRequest.responseData { (response) in
-            switch response.result {
-            case .success:
-                guard let statusCode = response.response?.statusCode else {
-                    return
-                }
-                guard let data = response.value else {
-                    return
-                }
-                completion(judgeSignInData(status: statusCode, data: data))
-            case .failure(let err):
-                print(err)
-                completion(.networkFail)
-            }
-        }
+        let requestData: RequestData = RequestData()
+        requestData.sendRequest(url: url, body: body, model: SignInModel.self, completion: completion)
     }
     
-    private func judgeSignInData(status: Int, data: Data) -> NetworkResult<Any> {
-        let decoder = JSONDecoder()
-        guard let decodedData = try? decoder.decode(GenericResponse<SignInModel>.self, from: data) else {
-            return .pathErr
-        }
+    func signUp(name: String,
+                email: String,
+                password: String,
+                completion: @escaping (NetworkResult<Any>) -> Void) {
         
-        switch status {
-        case 200:
-            return .success(decodedData.data as Any)
-        case 400..<500:
-            return .requestErr(decodedData.message)
-        case 500:
-            return .serverErr
-        default:
-            return .networkFail
-        }
+        let url = APIConstants.userSignUpURL
+        let body: Parameters = [
+            "name": name,
+            "email": email,
+            "password":password
+        ]
+        
+        let requestData: RequestData = RequestData()
+        requestData.sendRequest(url: url, body: body, model: SignUpModel.self, completion: completion)
     }
 }

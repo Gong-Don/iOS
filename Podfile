@@ -7,5 +7,6 @@ target 'gong-don' do
 
   # Pods for gong-don
   pod 'SnapKit', '~> 5.0.0'
-  pod 'Alamofire', '~> 5.5'	
+  pod 'Alamofire', '~> 5.5'
+  pod 'Then'	
 end

@@ -7,48 +7,39 @@
 
 import UIKit
 import SnapKit
+import Then
 
 class SignUpView: UIViewController, ViewProtocol {
+    
+    var signUpViewModel: SignUpViewModel = SignUpViewModel()
 
     let appLogoLabel: AppLogoLabel = AppLogoLabel()
     
-    let emailTextField: UnderLineTextField = {
-        let emailTextField = UnderLineTextField()
-        emailTextField.placeholder = "이메일"
-        return emailTextField
-    }()
+    let emailTextField = UnderLineTextField().then {
+        $0.placeholder = "이메일"
+    }
     
-    let emailAuthBtn: UIButton = {
-        let emailAuthBtn = UIButton(color: .blue01, radius: 15)
-        emailAuthBtn.setDetailTitle(title: "이메일 인증", color: .white, weight: .semibold)
-        return emailAuthBtn
-    }()
+    let emailAuthBtn = UIButton(color: .blue01, radius: 15).then {
+        $0.setDetailTitle(title: "이메일 인증", color: .white, weight: .semibold)
+    }
     
-    let pwTextField: UnderLineTextField = {
-        let pwTextField = UnderLineTextField()
-        pwTextField.placeholder = "비밀번호"
-        pwTextField.isSecureTextEntry = true
-        return pwTextField
-    }()
+    let pwTextField = UnderLineTextField().then {
+        $0.placeholder = "비밀번호"
+        $0.isSecureTextEntry = true
+    }
     
-    let checkPwTextField: UnderLineTextField = {
-        let checkPwTextField = UnderLineTextField()
-        checkPwTextField.placeholder = "비밀번호 확인"
-        checkPwTextField.isSecureTextEntry = true
-        return checkPwTextField
-    }()
+    let checkPwTextField = UnderLineTextField().then {
+        $0.placeholder = "비밀번호 확인"
+        $0.isSecureTextEntry = true
+    }
     
-    let nicknameTextField: UnderLineTextField = {
-        let nicknameTextField = UnderLineTextField()
-        nicknameTextField.placeholder = "닉네임"
-        return nicknameTextField
-    }()
+    let nicknameTextField = UnderLineTextField().then {
+        $0.placeholder = "닉네임"
+    }
     
-    let signUpBtn: UIButton = {
-        let signUpBtn = UIButton(color: .blue02)
-        signUpBtn.setDetailTitle(title: "회원가입", color: .white, size: 17, weight: .bold)
-        return signUpBtn
-    }()
+    let signUpBtn = UIButton(color: .blue02).then {
+        $0.setDetailTitle(title: "회원가입", color: .white, size: 17, weight: .bold)
+    }
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -57,6 +48,7 @@ class SignUpView: UIViewController, ViewProtocol {
         self.setUpValue()
         self.setUpView()
         self.setConstraints()
+        self.setAction()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,7 +66,11 @@ class SignUpView: UIViewController, ViewProtocol {
     
     // MARK: - Action Setting Methods
     func setAction() {
-        
+        self.signUpBtn.addAction(UIAction(handler: { _ in
+            self.signUpViewModel.requestSignUp(name: self.nicknameTextField.text ?? "",
+                                               email: self.emailTextField.text ?? "",
+                                               password: self.pwTextField.text ?? "")
+        }), for: .touchUpInside)
     }
     
     // MARK: - View Setting Methods

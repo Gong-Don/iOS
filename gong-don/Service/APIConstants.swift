@@ -8,9 +8,9 @@
 import Foundation
 
 struct APIConstants {
-    static let baseURL = ""
+    static let baseURL = "http://choco-one.iptime.org:11104/"
     // 로그인 URL
-    static let userSignInURL = baseURL + "/user/signin"
+    static let userSignInURL = baseURL + "api/user/signin"
     // 회원가입 URL
-    static let userSignUpURL = baseURL + "/user/signup"
+    static let userSignUpURL = baseURL + "api/user/signup"
 }
