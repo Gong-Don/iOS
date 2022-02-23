@@ -33,4 +33,14 @@ extension UIButton {
         self.titleLabel?.font = UIFont.systemFont(ofSize: size, weight: weight)
         if hover { self.setTitleColor(color.withAlphaComponent(0.5), for: .highlighted) }
     }
+    
+    func changeButtonMode(isChange: Bool, color: UIColor) {
+        if isChange {
+            self.backgroundColor = color
+            self.isEnabled = true
+        } else {
+            self.backgroundColor = color.withAlphaComponent(0.5)
+            self.isEnabled = false
+        }
+    }
 }

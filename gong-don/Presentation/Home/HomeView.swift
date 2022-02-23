@@ -58,7 +58,7 @@ class HomeView: UIViewController, ViewProtocol {
         super.viewDidAppear(animated)
     }
     
-    // MARK: - View Setting Mathods
+    // MARK: - View Protocol Methods
     func setUpValue() {
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = true

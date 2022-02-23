@@ -15,19 +15,20 @@ class SignInView: UIViewController, ViewProtocol {
     
     let appLogoLabel: AppLogoLabel = AppLogoLabel()
     
-    let emailTextField = UnderLineTextField().then {
-        $0.placeholder = "이메일"
+    let emailTextField = BindingTextField().then {
+        $0.placeholder = "이메일(example@gongdon.com)"
+        $0.tag = 0
+    }
+    
+    let pwTextField = BindingTextField().then {
+        $0.placeholder = "비밀번호(영문+숫자+특수문자 조합 8자리 이상)"
+        $0.isSecureTextEntry = true
         $0.tag = 1
     }
     
-    let pwTextField = UnderLineTextField().then {
-        $0.placeholder = "비밀번호"
-        $0.isSecureTextEntry = true
-        $0.tag = 2
-    }
-    
-    let signInBtn = UIButton(color: .blue02).then {
+    let signInBtn = UIButton(color: .blue02.withAlphaComponent(0.5)).then {
         $0.setDetailTitle(title: "로그인", color: .white, size: 17, weight: .bold)
+        $0.isEnabled = false
     }
     
     let findPwBtn = UIButton().then {
@@ -39,8 +40,8 @@ class SignInView: UIViewController, ViewProtocol {
     }
     
     let autoSignInBtn = UIButton().then {
-        $0.tintColor = .black
         $0.setDetailTitle(title: "자동 로그인 ", color: .black, size: 13, hover: false)
+        $0.tintColor = .black
         $0.setImage(UIImage(systemName: "square"), for: .normal)
         $0.setImage(UIImage(systemName: "checkmark.square"), for: .selected)
         $0.semanticContentAttribute = .forceRightToLeft
@@ -56,23 +57,22 @@ class SignInView: UIViewController, ViewProtocol {
         
         self.setAction()
         
-        self.emailTextField.delegate = self
-        self.pwTextField.delegate = self
+        self.signInViewModel.vc = self
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        self.emailTextField.addBottomLine()
-        self.pwTextField.addBottomLine()
-    }
-    
-    // MARK: - Action Setting Methods
+    // MARK: - Action Setting Method
     func setAction() {
+        _ = [
+            self.emailTextField,
+            self.pwTextField
+        ].map {
+            $0.addAction(self.textFieldDidChange($0), for: .editingChanged)
+        }
+        
         self.signInBtn.addAction(UIAction(handler: { _ in
-            self.signInViewModel.requestSignIn(vc: self,
-                                               email: self.emailTextField.text ?? "",
-                                               password: self.pwTextField.text ?? "")
+            self.signInViewModel.requestSignIn(
+                email: self.emailTextField.text ?? "",
+                password: self.pwTextField.text ?? "")
         }), for: .touchUpInside)
         
         self.signUpBtn.addAction(UIAction(handler: { _ in
@@ -84,7 +84,7 @@ class SignInView: UIViewController, ViewProtocol {
         }), for: .touchUpInside)
     }
     
-    // MARK: - View Setting Methods
+    // MARK: - View Protocol Methods
     func setUpValue() {
         self.view.backgroundColor = .white
         self.title = "로그인"
@@ -115,8 +115,9 @@ class SignInView: UIViewController, ViewProtocol {
     }
     
     func setConstraints() {
-        let leftMargin: CGFloat = 40
-        let rightMargin: CGFloat = -40
+        let leftMargin: CGFloat = 20
+        let rightMargin: CGFloat = -20
+        let textFieldHeight: CGFloat = 47
         
         // Logo
         self.appLogoLabel.snp.makeConstraints { make in
@@ -129,18 +130,20 @@ class SignInView: UIViewController, ViewProtocol {
             make.top.equalTo(self.appLogoLabel).offset(100)
             make.leading.equalToSuperview().offset(leftMargin)
             make.trailing.equalToSuperview().offset(rightMargin)
+            make.height.equalTo(textFieldHeight)
         }
         
         // Password
         self.pwTextField.snp.makeConstraints { make in
-            make.top.equalTo(self.emailTextField).offset(90)
+            make.top.equalTo(self.emailTextField).offset(70)
             make.leading.equalToSuperview().offset(leftMargin)
             make.trailing.equalToSuperview().offset(rightMargin)
+            make.height.equalTo(textFieldHeight)
         }
         
         // Sign In
         self.signInBtn.snp.makeConstraints { make in
-            make.top.equalTo(self.pwTextField).offset(90)
+            make.top.equalTo(self.pwTextField).offset(70)
             make.width.equalTo(86)
             make.height.equalTo(40)
             make.centerX.equalToSuperview()
@@ -160,8 +163,9 @@ class SignInView: UIViewController, ViewProtocol {
         
         // Sign Up
         self.signUpBtn.snp.makeConstraints { make in
-            make.top.equalTo(self.findPwBtn).offset(50)
-            make.width.equalTo(300)
+            make.top.equalTo(self.findPwBtn).offset(70)
+            make.leading.equalToSuperview().offset(leftMargin)
+            make.trailing.equalToSuperview().offset(rightMargin)
             make.height.equalTo(40)
             make.centerX.equalToSuperview()
         }
@@ -179,28 +183,13 @@ extension SignInView: UITextFieldDelegate {
         return true
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField.tag == 1 {
-            self.emailTextField.deleteRequestLabel()
-        } else {
-            self.pwTextField.deleteRequestLabel()
+    func textFieldDidChange(_ textField: BindingTextField) -> UIAction {
+        let changedAction = UIAction { _ in
+            self.signInBtn.changeButtonMode(
+                isChange: self.signInViewModel.textFieldDidChange(textField: textField),
+                color: .blue02)
         }
-    }
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.tag == 1 {
-            let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-            let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
-            if !emailTest.evaluate(with: self.emailTextField.text) {
-                self.emailTextField.bottomLine.backgroundColor = UIColor.red.cgColor
-                self.emailTextField.addRequestLabel(vc: self, text: "올바른 이메일 주소를 입력해주세요.")
-            }
-        } else {
-            let pwRegEx = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
-            let pwTest = NSPredicate(format: "SELF MATCHES %@", pwRegEx)
-            if !pwTest.evaluate(with: self.pwTextField.text) {
-                self.pwTextField.bottomLine.backgroundColor = UIColor.red.cgColor
-                self.pwTextField.addRequestLabel(vc: self, text: "영문+숫자+특수문자 조합 8자리 이상 입력해주세요.")
-            }
-        }
+
+        return changedAction
     }
 }

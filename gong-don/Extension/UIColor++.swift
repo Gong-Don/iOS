@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIColor {
-    
+
     class var blue01: UIColor {
         return UIColor.systemBlue
     }
