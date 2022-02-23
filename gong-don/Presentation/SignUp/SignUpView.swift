@@ -55,8 +55,6 @@ class SignUpView: UIViewController, ViewProtocol {
         self.setConstraints()
         
         self.setAction()
-        
-        self.signUpViewModel.vc = self
     }
     
     // MARK: - Action Setting Method
@@ -71,10 +69,12 @@ class SignUpView: UIViewController, ViewProtocol {
         }
         
         self.signUpBtn.addAction(UIAction(handler: { _ in
-            self.signUpViewModel.requestSignUp(
+            if self.signUpViewModel.requestSignUp(
                 name: self.nicknameTextField.text ?? "",
                 email: self.emailTextField.text ?? "",
-                password: self.pwTextField.text ?? "")
+                password: self.pwTextField.text ?? "") {
+                self.pushView(VC: TabBarController())
+            }
         }), for: .touchUpInside)
     }
     

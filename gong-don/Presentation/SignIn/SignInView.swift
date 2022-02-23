@@ -56,8 +56,6 @@ class SignInView: UIViewController, ViewProtocol {
         self.setConstraints()
         
         self.setAction()
-        
-        self.signInViewModel.vc = self
     }
     
     // MARK: - Action Setting Method
@@ -70,9 +68,11 @@ class SignInView: UIViewController, ViewProtocol {
         }
         
         self.signInBtn.addAction(UIAction(handler: { _ in
-            self.signInViewModel.requestSignIn(
+            if self.signInViewModel.requestSignIn(
                 email: self.emailTextField.text ?? "",
-                password: self.pwTextField.text ?? "")
+                password: self.pwTextField.text ?? "") {
+                self.pushView(VC: TabBarController())
+            }
         }), for: .touchUpInside)
         
         self.signUpBtn.addAction(UIAction(handler: { _ in
@@ -186,8 +186,8 @@ extension SignInView: UITextFieldDelegate {
     func textFieldDidChange(_ textField: BindingTextField) -> UIAction {
         let changedAction = UIAction { _ in
             self.signInBtn.changeButtonMode(
-                isChange: self.signInViewModel.textFieldDidChange(textField: textField),
-                color: .blue02)
+                isChange: self.signInViewModel.textFieldDidChange(textField: textField)
+                ,color: .blue02)
         }
 
         return changedAction

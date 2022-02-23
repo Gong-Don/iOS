@@ -11,9 +11,9 @@ class AppLogoLabel: UILabel {
 
     init() {
         super.init(frame: CGRect())
-        self.text = "공돈"
+        self.text = "GongDon"
         self.textColor = UIColor.blue01
-        self.font = UIFont.systemFont(ofSize: 38, weight: .black)
+        self.font = UIFont.systemFont(ofSize: 38, weight: .heavy)
         
     }
     

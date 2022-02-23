@@ -79,7 +79,6 @@ class HomeView: UIViewController, ViewProtocol {
     }
     
     func setConstraints() {
-        
         let leftMargin: CGFloat = self.viewSideMargin / 2
         let rightMargin: CGFloat = -self.viewSideMargin / 2
         
@@ -116,7 +115,6 @@ class HomeView: UIViewController, ViewProtocol {
 
  // MARK: - UICollection
 extension HomeView: UICollectionViewDelegate, UICollectionViewDataSource {
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
@@ -125,7 +123,6 @@ extension HomeView: UICollectionViewDelegate, UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCell.cellIdentifier, for: indexPath) as? TaskCell else {
             return UICollectionViewCell()
         }
-        
         return cell
     }
 }
