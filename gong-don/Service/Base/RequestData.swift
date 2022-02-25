@@ -10,7 +10,7 @@ import Alamofire
 struct RequestData {
     
     func sendRequest<T:Decodable>(url: String, body: Parameters, model: T.Type,
-                                completion: @escaping (NetworkResult<Any>) -> Void) {
+                                  completion: @escaping (NetworkResult<Any>) -> Void) {
         
         let header: HTTPHeaders = [ "Content-Type":"application/json" ]
         

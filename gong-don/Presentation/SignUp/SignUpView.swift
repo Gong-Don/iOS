@@ -10,7 +10,6 @@ import SnapKit
 import Then
 
 class SignUpView: UIViewController, ViewProtocol {
-    
     var signUpViewModel: SignUpViewModel = SignUpViewModel()
 
     let appLogoLabel: AppLogoLabel = AppLogoLabel()
@@ -82,13 +81,7 @@ class SignUpView: UIViewController, ViewProtocol {
         
         // Sign Up
         self.signUpBtn.addAction(UIAction(handler: { _ in
-            self.signUpViewModel.requestSignUp(
-                name: self.nicknameTextField.text ?? "",
-                email: self.emailTextField.text ?? "",
-                password: self.pwTextField.text ?? ""
-            ) {
-                self.signUpEndHandler()
-            }
+            self.signUpViewModel.requestSignUp(endHandler: self.signUpEndHandler)
         }), for: .touchUpInside)
     }
     
@@ -180,9 +173,7 @@ class SignUpView: UIViewController, ViewProtocol {
 extension SignUpView {
     func signUpEndHandler() {
         self.pushView(VC: TabBarController())
-        self.signUpViewModel.storeUserAccount(
-            email: self.emailTextField.text ?? "",
-            password: self.pwTextField.text ?? "")
+        self.signUpViewModel.storeUserAccount()
     }
 }
 
@@ -201,15 +192,17 @@ extension SignUpView: UITextFieldDelegate {
         return UIAction { _ in
             self.signUpBtn.changeButtonMode(
                 isChange: self.signUpViewModel.textFieldDidChange(textField: textField),
-                color: .blue02)
+                color: .blue02
+            )
             
             if textField.tag == 0 {
                 self.emailAuthBtn.changeButtonMode(
                     isChange: self.signUpViewModel.isValidInfo[0],
-                    color: .blue01)
+                    color: .blue01
+                )
             } else if textField.tag == 1 {
                 self.checkPwTextField.text = ""
-                self.checkPwTextField.layer.borderColor = self.checkPwTextField.defaultColor.cgColor
+                self.checkPwTextField.layer.borderColor = textField.defaultColor.cgColor
             }
         }
     }

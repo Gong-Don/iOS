@@ -10,7 +10,6 @@ import SnapKit
 import Then
 
 class SignInView: UIViewController, ViewProtocol {
-    
     var signInViewModel: SignInViewModel = SignInViewModel()
     
     let appLogoLabel: AppLogoLabel = AppLogoLabel()
@@ -64,10 +63,7 @@ class SignInView: UIViewController, ViewProtocol {
         
         // Sign In
         self.signInBtn.addAction(UIAction(handler: { _ in
-            self.signInViewModel.requestSignIn(
-                email: self.emailTextField.text ?? "",
-                password: self.pwTextField.text ?? "",
-                endHandler: self.signInEndHandler)
+            self.signInViewModel.requestSignIn(endHandler: self.signInEndHandler)
         }), for: .touchUpInside)
         
         // Sign Up
@@ -162,19 +158,13 @@ extension SignInView {
         if let user = self.signInViewModel.checkUserAccount() {
             self.emailTextField.text = user.email
             self.pwTextField.text = user.password
-            self.signInViewModel.requestSignIn(
-                email: user.email,
-                password: user.password,
-                endHandler: self.signInEndHandler
-            )
+            self.signInViewModel.requestSignIn(endHandler: self.signInEndHandler)
         }
     }
     
     func signInEndHandler() -> Void {
         self.pushView(VC: TabBarController())
-        self.signInViewModel.storeUserAccount(
-            email: self.emailTextField.text ?? "",
-            password: self.pwTextField.text ?? "")
+        self.signInViewModel.storeUserAccount()
     }
 }
 
@@ -192,8 +182,9 @@ extension SignInView: UITextFieldDelegate {
     func textFieldDidChange(_ textField: BindingTextField) -> UIAction {
         let changedAction = UIAction { _ in
             self.signInBtn.changeButtonMode(
-                isChange: self.signInViewModel.textFieldDidChange(textField: textField)
-                ,color: .blue02)
+                isChange: self.signInViewModel.textFieldDidChange(textField: textField),
+                color: .blue02
+            )
         }
 
         return changedAction

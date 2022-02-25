@@ -14,11 +14,11 @@ struct UserService {
     
     
     // MARK: - Sign In Service
-    func signIn(email: String, password: String, endHandler: @escaping ()->Void) {
+    func signIn(model: SignInModel, endHandler: @escaping ()->Void) {
         let url = APIConstants.userSignInURL
         let body: Parameters = [
-            "email": email,
-            "password": password
+            "email": model.email,
+            "password": model.password
         ]
         
         RequestData().sendRequest(url: url, body: body, model: UserModel.self) { response in
@@ -46,12 +46,12 @@ struct UserService {
     }
     
     // MARK: - Sign Up Service
-    func signUp(name: String, email: String, password: String, endHandler: @escaping ()->Void) {
+    func signUp(model: SignUpModel, endHandler: @escaping ()->Void) {
         let url = APIConstants.userSignUpURL
         let body: Parameters = [
-            "name": name,
-            "email": email,
-            "password": password
+            "name": model.name,
+            "email": model.email,
+            "password": model.password
         ]
         
         RequestData().sendRequest(url: url, body: body, model: UserModel.self) { response in

@@ -17,12 +17,12 @@ struct UserModel: Decodable {
 }
 
 struct SignInModel: Encodable {
-    let email: String
-    let password: String
+    var email: String
+    var password: String
 }
 
 struct SignUpModel: Encodable {
-    let name: String
-    let email: String
-    let password: String
+    var name: String
+    var email: String
+    var password: String
 }

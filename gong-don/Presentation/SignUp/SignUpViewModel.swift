@@ -9,11 +9,11 @@ import Foundation
 import UIKit
 
 struct SignUpViewModel {
-    var password: String = ""
+    var signUpModel: SignUpModel = SignUpModel(name: "", email: "", password: "")
     var isValidInfo: [Bool] = [false, false, false, false]  // email, pwd, pwd check, nickname
     
-    func requestSignUp(name: String, email: String, password: String, endHandler: @escaping ()->Void) {
-        UserService.shared.signUp(name: name, email: email, password: password, endHandler: endHandler)
+    func requestSignUp(endHandler: @escaping ()->Void) {
+        UserService.shared.signUp(model: self.signUpModel, endHandler: endHandler)
     }
 }
 
@@ -25,7 +25,7 @@ extension SignUpViewModel {
         if tag != 2 {
             self.isValidInfo[tag] = test.evaluate(with: textField.text)
         } else {
-            self.isValidInfo[tag] = self.password == textField.text ? true : false
+            self.isValidInfo[tag] = self.signUpModel.password == textField.text ? true : false
         }
        
         textField.layer.borderColor = self.isValidInfo[tag] ? validColor : invalidColor
@@ -37,12 +37,13 @@ extension SignUpViewModel {
             let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
             let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
             self.evaluateValidation(tag: 0, test: emailTest, textField: textField)
+            self.signUpModel.email = textField.text ?? ""
             
         case 1: // password
             let pwRegEx = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
             let pwTest = NSPredicate(format: "SELF MATCHES %@", pwRegEx)
             self.evaluateValidation(tag: 1, test: pwTest, textField: textField)
-            self.password = textField.text ?? ""
+            self.signUpModel.password = textField.text ?? ""
             
         case 2: // check password
             self.evaluateValidation(tag: 2, textField: textField)
@@ -51,7 +52,8 @@ extension SignUpViewModel {
             let nicknameRegEx = "[가-힣A-Za-z0-9_-]{2,8}"
             let nicknameTest = NSPredicate(format: "SELF MATCHES %@", nicknameRegEx)
             self.evaluateValidation(tag: 3, test: nicknameTest, textField: textField)
-
+            self.signUpModel.name = textField.text ?? ""
+            
         default: return false
         }
         
@@ -62,11 +64,15 @@ extension SignUpViewModel {
 }
 
 extension SignUpViewModel {
-    func storeUserAccount(email: String, password: String) {
+    func storeUserAccount() {
         if KeyChain.shared.readUser() == nil {
-            KeyChain.shared.createUser(User(email: email, password: password))
+            KeyChain.shared.createUser(
+                User(email: self.signUpModel.email, password: self.signUpModel.password)
+            )
         } else if KeyChain.shared.deleteUser() {
-            KeyChain.shared.createUser(User(email: email, password: password))
+            KeyChain.shared.createUser(
+                User(email: self.signUpModel.email, password: self.signUpModel.password)
+            )
         }
     }
 }
