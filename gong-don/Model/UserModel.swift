@@ -7,18 +7,22 @@
 
 import Foundation
 
-struct ErrorModel: Codable {
+struct ErrorModel: Decodable {
     let code: Int
     let message: String
 }
 
-struct SignUpModel: Codable {
-    let name: String
+struct UserModel: Decodable {
+    let userId: Int
+}
+
+struct SignInModel: Encodable {
     let email: String
     let password: String
 }
 
-struct SignInModel: Codable {
+struct SignUpModel: Encodable {
+    let name: String
     let email: String
     let password: String
 }

@@ -16,6 +16,10 @@ class TabBarController: UITabBarController {
         self.setUpStyle()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
     func setInstance() {
         let firstTab = HomeView()
         let secondTab = TaskListView()

@@ -20,8 +20,9 @@ class SignUpView: UIViewController, ViewProtocol {
         $0.tag = 0
     }
     
-    let emailAuthBtn = UIButton(color: .blue01, radius: 18).then {
+    let emailAuthBtn = UIButton(color: .blue01.withAlphaComponent(0.5), radius: 18).then {
         $0.setDetailTitle(title: "이메일 인증", color: .white, weight: .semibold)
+        $0.isEnabled = false
     }
     
     let pwTextField = BindingTextField().then {
@@ -55,10 +56,21 @@ class SignUpView: UIViewController, ViewProtocol {
         self.setConstraints()
         
         self.setAction()
+        
+        _ = [
+            self.emailTextField,
+            self.pwTextField,
+            self.checkPwTextField,
+            self.nicknameTextField
+        ].map {
+            $0.delegate = self
+            self.addKeyBoardAnimation(sender: $0)
+        }
     }
     
     // MARK: - Action Setting Method
     func setAction() {
+        // TextField
         _ = [
             self.emailTextField,
             self.pwTextField,
@@ -68,12 +80,14 @@ class SignUpView: UIViewController, ViewProtocol {
             $0.addAction(self.textFieldDidChange($0), for: .editingChanged)
         }
         
+        // Sign Up
         self.signUpBtn.addAction(UIAction(handler: { _ in
-            if self.signUpViewModel.requestSignUp(
+            self.signUpViewModel.requestSignUp(
                 name: self.nicknameTextField.text ?? "",
                 email: self.emailTextField.text ?? "",
-                password: self.pwTextField.text ?? "") {
-                self.pushView(VC: TabBarController())
+                password: self.pwTextField.text ?? ""
+            ) {
+                self.signUpEndHandler()
             }
         }), for: .touchUpInside)
     }
@@ -104,10 +118,11 @@ class SignUpView: UIViewController, ViewProtocol {
         let textFieldHeight: CGFloat = 47
         let textFieldSpacing: CGFloat = 70
         let emailAutnBtnWidth: CGFloat = 90
+        let logoTopMargin: CGFloat = self.view.frame.size.height / 5
         
         // Logo
         self.appLogoLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(170)
+            make.top.equalToSuperview().offset(logoTopMargin)
             make.centerX.equalToSuperview()
         }
         
@@ -156,15 +171,23 @@ class SignUpView: UIViewController, ViewProtocol {
             make.top.equalTo(self.nicknameTextField).offset(100)
             make.leading.equalToSuperview().offset(leftMargin)
             make.trailing.equalToSuperview().offset(rightMargin)
-            make.height.equalTo(40)
             make.centerX.equalToSuperview()
+            make.height.equalTo(40)
         }
     }
-
 }
 
+extension SignUpView {
+    func signUpEndHandler() {
+        self.pushView(VC: TabBarController())
+        self.signUpViewModel.storeUserAccount(
+            email: self.emailTextField.text ?? "",
+            password: self.pwTextField.text ?? "")
+    }
+}
+
+// MARK: - TextField Delegate
 extension SignUpView: UITextFieldDelegate {
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -175,17 +198,67 @@ extension SignUpView: UITextFieldDelegate {
     }
     
     func textFieldDidChange(_ textField: BindingTextField) -> UIAction {
-        let changedAction = UIAction { _ in
+        return UIAction { _ in
             self.signUpBtn.changeButtonMode(
                 isChange: self.signUpViewModel.textFieldDidChange(textField: textField),
                 color: .blue02)
             
-            if textField.tag == 1 {
+            if textField.tag == 0 {
+                self.emailAuthBtn.changeButtonMode(
+                    isChange: self.signUpViewModel.isValidInfo[0],
+                    color: .blue01)
+            } else if textField.tag == 1 {
                 self.checkPwTextField.text = ""
                 self.checkPwTextField.layer.borderColor = self.checkPwTextField.defaultColor.cgColor
             }
         }
-
-        return changedAction
     }
 }
+
+// MARK: - Keboard Action
+extension SignUpView: KeyboardProtocol {
+    func addKeyBoardAnimation(sender: AnyObject) {
+        sender.addAction(UIAction(handler: { _ in self.setKeyBoardAction()}), for: .editingDidBegin)
+        sender.addAction(UIAction(handler: { _ in self.removeKeyBoardAction()}), for: .editingDidEnd)
+    }
+    
+    func setKeyBoardAction() {
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(keyboardWillShow(noti:)),
+            name: UIResponder.keyboardWillShowNotification, object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(keyboardWillHide(noti:)),
+            name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    func removeKeyBoardAction() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func keyboardWillShow(noti: NSNotification) {
+        let textFieldSpacing: CGFloat = 70
+        self.animateWithKeyboard(noti: noti) { keyboardFrame in
+            self.appLogoLabel.snp.updateConstraints { make in
+                make.top.equalToSuperview()
+            }
+            self.signUpBtn.snp.updateConstraints { make in
+                make.top.equalTo(self.nicknameTextField).offset(textFieldSpacing)
+            }
+        }
+    }
+        
+    @objc func keyboardWillHide(noti: NSNotification) {
+        let logoTopMargin: CGFloat = self.view.frame.size.height / 5
+        self.animateWithKeyboard(noti: noti) { keyboardFrame in
+            self.appLogoLabel.snp.updateConstraints { make in
+                make.top.equalToSuperview().offset(logoTopMargin)
+            }
+            self.signUpBtn.snp.updateConstraints { make in
+                make.top.equalTo(self.nicknameTextField).offset(100)
+            }
+        }
+    }
+}
+

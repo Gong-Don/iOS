@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import SnapKit
-import Then
 
 class BindingTextField: UITextField {
     let textFont: UIFont = UIFont.systemFont(ofSize: 15)
@@ -40,11 +38,10 @@ extension BindingTextField {
     func setUpBorder() {
         let borderWidth: CGFloat = 1
         let cornerRadius: CGFloat = 4
-        let borderColor: CGColor = self.defaultColor.cgColor
 
         self.layer.borderWidth = borderWidth
         self.layer.cornerRadius = cornerRadius
-        self.layer.borderColor = borderColor
+        self.layer.borderColor = self.defaultColor.cgColor
     }
     
     func setLeftPadding(_ amount:CGFloat){

@@ -6,71 +6,51 @@
 //
 
 import Foundation
+import UIKit
 
 struct SignUpViewModel {
     var password: String = ""
     var isValidInfo: [Bool] = [false, false, false, false]  // email, pwd, pwd check, nickname
+    
+    func requestSignUp(name: String, email: String, password: String, endHandler: @escaping ()->Void) {
+        UserService.shared.signUp(name: name, email: email, password: password, endHandler: endHandler)
+    }
 }
 
 extension SignUpViewModel {
-    func requestSignUp(name: String, email: String, password: String) -> Bool {
-        var success: Bool = false
-        UserService.shared.signUp(name: name, email: email, password: password) { response in
-            switch(response) {
-            case.success(let data):
-                if let data = data as? SignUpModel {
-                    success = true
-                    UserDefaults.standard.set(data.email, forKey: "userEmail")
-                    UserDefaults.standard.set(data.name, forKey: "userName")
-                    UserDefaults.standard.set(true, forKey: "isLogin")
-                    print("Sign Up Success!!")
-                }
-            case.pathErr:
-                print("pathErr")
-            case.requestErr(let message):
-                print("requestErr: \(message)")
-            case.serverErr:
-                print("serverErr")
-            case.networkFail:
-                print("networkFail")
-            }
-        }
-        return success
-    }
-    
-    mutating func textFieldDidChange(textField: BindingTextField) -> Bool {
+    mutating func evaluateValidation(tag: Int, test: NSPredicate = NSPredicate(), textField: BindingTextField) {
         let validColor = textField.actionColor.cgColor
         let invalidColor = textField.defaultColor.cgColor
         
-        func setBorderColor(tag: Int) {
-            textField.layer.borderColor = self.isValidInfo[tag] ? validColor : invalidColor
+        if tag != 2 {
+            self.isValidInfo[tag] = test.evaluate(with: textField.text)
+        } else {
+            self.isValidInfo[tag] = self.password == textField.text ? true : false
         }
-        
+       
+        textField.layer.borderColor = self.isValidInfo[tag] ? validColor : invalidColor
+    }
+    
+    mutating func textFieldDidChange(textField: BindingTextField) -> Bool {
         switch textField.tag {
         case 0: // email
             let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
             let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
-            
-            self.isValidInfo[0] = emailTest.evaluate(with: textField.text)
-            setBorderColor(tag: 0)
+            self.evaluateValidation(tag: 0, test: emailTest, textField: textField)
             
         case 1: // password
             let pwRegEx = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
             let pwTest = NSPredicate(format: "SELF MATCHES %@", pwRegEx)
-            
+            self.evaluateValidation(tag: 1, test: pwTest, textField: textField)
             self.password = textField.text ?? ""
-            self.isValidInfo[1] = pwTest.evaluate(with: textField.text)
-            setBorderColor(tag: 1)
             
         case 2: // check password
-            self.isValidInfo[2] = self.isValidInfo[1] && self.password == textField.text ? true : false
-            setBorderColor(tag: 2)
+            self.evaluateValidation(tag: 2, textField: textField)
             
         case 3: // nickname
-            if let count = textField.text?.count {
-                self.isValidInfo[3] = 2 <= count && count <= 8 ? true : false
-                setBorderColor(tag: 3)
-            }
+            let nicknameRegEx = "[가-힣A-Za-z0-9_-]{2,8}"
+            let nicknameTest = NSPredicate(format: "SELF MATCHES %@", nicknameRegEx)
+            self.evaluateValidation(tag: 3, test: nicknameTest, textField: textField)
 
         default: return false
         }
@@ -78,5 +58,15 @@ extension SignUpViewModel {
         for valid in isValidInfo { if !valid { return false } }
         
         return true
+    }
+}
+
+extension SignUpViewModel {
+    func storeUserAccount(email: String, password: String) {
+        if KeyChain.shared.readUser() == nil {
+            KeyChain.shared.createUser(User(email: email, password: password))
+        } else if KeyChain.shared.deleteUser() {
+            KeyChain.shared.createUser(User(email: email, password: password))
+        }
     }
 }

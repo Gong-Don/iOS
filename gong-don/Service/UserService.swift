@@ -11,33 +11,70 @@ import Alamofire
 struct UserService {
     static let shared = UserService()
     
-    func signIn(email: String,
-                password: String,
-                completion: @escaping (NetworkResult<Any>) -> Void) {
-        
+    
+    
+    // MARK: - Sign In Service
+    func signIn(email: String, password: String, endHandler: @escaping ()->Void) {
         let url = APIConstants.userSignInURL
         let body: Parameters = [
             "email": email,
-            "password":password
+            "password": password
         ]
         
-        let requestData: RequestData = RequestData()
-        requestData.sendRequest(url: url, body: body, model: SignInModel.self, completion: completion)
+        RequestData().sendRequest(url: url, body: body, model: UserModel.self) { response in
+            switch(response) {
+            case.success:
+//                if let data = data as? UserModel {
+//                    isNetworking = true
+//                    UserDefaults.standard.set(data.email, forKey: "userEmail")
+//                    UserDefaults.standard.set(data.password, forKey: "userPassword")
+//                    UserDefaults.standard.set(true, forKey: "isLogin")
+//                    print("Sign In Success!!")
+//                }
+                print("Sign In Success!!")
+                endHandler()
+            case.pathErr:
+                print("pathErr")
+            case.requestErr(let message):
+                print("requestErr: \(message)")
+            case.serverErr:
+                print("serverErr")
+            case.networkFail:
+                print("networkFail")
+            }
+        }
     }
     
-    func signUp(name: String,
-                email: String,
-                password: String,
-                completion: @escaping (NetworkResult<Any>) -> Void) {
-        
+    // MARK: - Sign Up Service
+    func signUp(name: String, email: String, password: String, endHandler: @escaping ()->Void) {
         let url = APIConstants.userSignUpURL
         let body: Parameters = [
             "name": name,
             "email": email,
-            "password":password
+            "password": password
         ]
         
-        let requestData: RequestData = RequestData()
-        requestData.sendRequest(url: url, body: body, model: SignUpModel.self, completion: completion)
+        RequestData().sendRequest(url: url, body: body, model: UserModel.self) { response in
+            switch(response) {
+            case.success:
+//                if let data = data as? UserModel {
+//                    isNetworking = true
+//                    UserDefaults.standard.set(data.email, forKey: "userEmail")
+//                    UserDefaults.standard.set(data.name, forKey: "userName")
+//                    UserDefaults.standard.set(true, forKey: "isLogin")
+//                    print("Sign Up Success!!")
+//                }
+                print("Sign Up Success!!")
+                endHandler()
+            case.pathErr:
+                print("pathErr")
+            case.requestErr(let message):
+                print("requestErr: \(message)")
+            case.serverErr:
+                print("serverErr")
+            case.networkFail:
+                print("networkFail")
+            }
+        }
     }
 }

@@ -54,8 +54,8 @@ class HomeView: UIViewController, ViewProtocol {
         self.setConstraints()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     // MARK: - View Protocol Methods

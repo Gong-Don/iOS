@@ -38,14 +38,6 @@ class SignInView: UIViewController, ViewProtocol {
     let signUpBtn = UIButton(color: .blue02).then {
         $0.setDetailTitle(title: "회원가입", color: .white, size: 17, weight: .bold)
     }
-    
-    let autoSignInBtn = UIButton().then {
-        $0.setDetailTitle(title: "자동 로그인 ", color: .black, size: 13, hover: false)
-        $0.tintColor = .black
-        $0.setImage(UIImage(systemName: "square"), for: .normal)
-        $0.setImage(UIImage(systemName: "checkmark.square"), for: .selected)
-        $0.semanticContentAttribute = .forceRightToLeft
-    }
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -56,10 +48,13 @@ class SignInView: UIViewController, ViewProtocol {
         self.setConstraints()
         
         self.setAction()
+        
+        self.checkKeyChain()
     }
     
     // MARK: - Action Setting Method
     func setAction() {
+        // TextField
         _ = [
             self.emailTextField,
             self.pwTextField
@@ -67,20 +62,17 @@ class SignInView: UIViewController, ViewProtocol {
             $0.addAction(self.textFieldDidChange($0), for: .editingChanged)
         }
         
+        // Sign In
         self.signInBtn.addAction(UIAction(handler: { _ in
-            if self.signInViewModel.requestSignIn(
+            self.signInViewModel.requestSignIn(
                 email: self.emailTextField.text ?? "",
-                password: self.pwTextField.text ?? "") {
-                self.pushView(VC: TabBarController())
-            }
+                password: self.pwTextField.text ?? "",
+                endHandler: self.signInEndHandler)
         }), for: .touchUpInside)
         
+        // Sign Up
         self.signUpBtn.addAction(UIAction(handler: { _ in
             self.pushView(VC: SignUpView())
-        }), for: .touchUpInside)
-        
-        self.autoSignInBtn.addAction(UIAction(handler: { _ in
-            self.autoSignInBtn.isSelected.toggle()
         }), for: .touchUpInside)
     }
     
@@ -88,7 +80,6 @@ class SignInView: UIViewController, ViewProtocol {
     func setUpValue() {
         self.view.backgroundColor = .white
         self.title = "로그인"
-//        self.navigationController?.navigationBar.isHidden = true
         
         // NavigationBar Setting
         let navigationBar = self.navigationController?.navigationBar
@@ -108,7 +99,6 @@ class SignInView: UIViewController, ViewProtocol {
             self.signInBtn,
             self.findPwBtn,
             self.signUpBtn,
-            self.autoSignInBtn
         ].map {
             self.view.addSubview($0)
         }
@@ -118,10 +108,11 @@ class SignInView: UIViewController, ViewProtocol {
         let leftMargin: CGFloat = 20
         let rightMargin: CGFloat = -20
         let textFieldHeight: CGFloat = 47
+        let logoTopMargin: CGFloat = self.view.frame.size.height / 4
         
         // Logo
         self.appLogoLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.view).offset(200)
+            make.top.equalTo(self.view).offset(logoTopMargin)
             make.centerX.equalToSuperview()
         }
         
@@ -149,12 +140,6 @@ class SignInView: UIViewController, ViewProtocol {
             make.centerX.equalToSuperview()
         }
         
-        // Auto SignIn
-        self.autoSignInBtn.snp.makeConstraints { make in
-            make.centerY.equalTo(self.signInBtn)
-            make.trailing.equalToSuperview().offset(rightMargin)
-        }
-        
         // Find Password
         self.findPwBtn.snp.makeConstraints { make in
             make.top.equalTo(self.signInBtn).offset(50)
@@ -169,6 +154,27 @@ class SignInView: UIViewController, ViewProtocol {
             make.height.equalTo(40)
             make.centerX.equalToSuperview()
         }
+    }
+}
+
+extension SignInView {
+    func checkKeyChain() {
+        if let user = self.signInViewModel.checkUserAccount() {
+            self.emailTextField.text = user.email
+            self.pwTextField.text = user.password
+            self.signInViewModel.requestSignIn(
+                email: user.email,
+                password: user.password,
+                endHandler: self.signInEndHandler
+            )
+        }
+    }
+    
+    func signInEndHandler() -> Void {
+        self.pushView(VC: TabBarController())
+        self.signInViewModel.storeUserAccount(
+            email: self.emailTextField.text ?? "",
+            password: self.pwTextField.text ?? "")
     }
 }
 

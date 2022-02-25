@@ -9,14 +9,17 @@ import Alamofire
 
 struct RequestData {
     
-    func sendRequest<T:Codable>(url: String, body: Parameters, model: T.Type,
+    func sendRequest<T:Decodable>(url: String, body: Parameters, model: T.Type,
                                 completion: @escaping (NetworkResult<Any>) -> Void) {
-        let header: HTTPHeaders = [
-            "Content-Type":"application/json"
-        ]
         
-        let dataRequest = AF.request(url, method: .post, parameters: body,
-                                     encoding: JSONEncoding.default, headers: header)
+        let header: HTTPHeaders = [ "Content-Type":"application/json" ]
+        
+        let dataRequest = AF.request (
+            url, method: .post,
+            parameters: body,
+            encoding: JSONEncoding.default,
+            headers: header
+        )
         
         dataRequest.responseData { (response) in
             switch response.result {
@@ -31,15 +34,14 @@ struct RequestData {
         }
     }
     
-    private func judgeStatus<T:Codable>(status: Int, data: Data, model: T.Type) -> NetworkResult<Any> {
+    private func judgeStatus<T:Decodable>(status: Int, data: Data, model: T.Type) -> NetworkResult<Any> {
         let decoder = JSONDecoder()
-        
         switch status {
         case 200:
-            guard let decodedData = try? decoder.decode(model.self, from: data) else {
-                return .pathErr
-            }
-            return .success(decodedData)
+//            guard let decodedData = try? decoder.decode(model, from: data) else {
+//                return .pathErr
+//            }
+            return .success
         case 400..<500:
             guard let decodedData = try? decoder.decode(ErrorModel.self, from: data) else {
                 return .pathErr
