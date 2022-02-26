@@ -11,8 +11,8 @@ struct SignInViewModel {
     var signInModel: SignInModel = SignInModel(email: "", password: "")
     var isValidInfo: [Bool] = [false, false]  // email, pwd
     
-    func requestSignIn(endHandler: @escaping ()->Void) {
-        UserService.shared.signIn(model: self.signInModel, endHandler: endHandler)
+    func requestSignIn(successHandler: @escaping ()->Void, errorHandler: @escaping (String, String)->Void) {
+        UserService.shared.signIn(model: self.signInModel, successHandler: successHandler, errorHandler: errorHandler)
     }
 }
 

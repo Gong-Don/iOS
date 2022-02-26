@@ -20,7 +20,7 @@ class HomeView: UIViewController, ViewProtocol {
         $0.font = UIFont.systemFont(ofSize: 17)
     }
     
-    let searchBar: CustomSearchBar = CustomSearchBar()
+    let searchBar: HomeSearchBar = HomeSearchBar()
     
     var taskCollectionView: UICollectionView! {
         didSet {

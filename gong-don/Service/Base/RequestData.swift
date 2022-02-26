@@ -38,16 +38,16 @@ struct RequestData {
         let decoder = JSONDecoder()
         switch status {
         case 200:
-//            guard let decodedData = try? decoder.decode(model, from: data) else {
-//                return .pathErr
-//            }
-            return .success
+            guard let decodedData = try? decoder.decode(model, from: data) else {
+                return .pathErr
+            }
+            return .success(decodedData)
         case 400..<500:
             guard let decodedData = try? decoder.decode(ErrorModel.self, from: data) else {
                 return .pathErr
             }
             return .requestErr(decodedData.message)
-        case 500:
+        case 500..<600:
             return .serverErr
         default:
             return .networkFail

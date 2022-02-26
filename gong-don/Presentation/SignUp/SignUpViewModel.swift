@@ -12,8 +12,13 @@ struct SignUpViewModel {
     var signUpModel: SignUpModel = SignUpModel(name: "", email: "", password: "")
     var isValidInfo: [Bool] = [false, false, false, false]  // email, pwd, pwd check, nickname
     
-    func requestSignUp(endHandler: @escaping ()->Void) {
-        UserService.shared.signUp(model: self.signUpModel, endHandler: endHandler)
+    func requestSignUp(successHandler: @escaping ()->Void, errorHandler: @escaping (String, String)->Void) {
+        UserService.shared.signUp(model: self.signUpModel, successHandler: successHandler, errorHandler: errorHandler)
+    }
+    
+    func requestEmailAuth() {
+        let authModel: AuthModel = AuthModel(email: self.signUpModel.email)
+        AuthService.shared.emailAuth(model: authModel)
     }
 }
 

@@ -63,7 +63,10 @@ class SignInView: UIViewController, ViewProtocol {
         
         // Sign In
         self.signInBtn.addAction(UIAction(handler: { _ in
-            self.signInViewModel.requestSignIn(endHandler: self.signInEndHandler)
+            self.signInViewModel.requestSignIn(
+                successHandler: self.signInHandler,
+                errorHandler: self.errorHandler
+            )
         }), for: .touchUpInside)
         
         // Sign Up
@@ -158,13 +161,21 @@ extension SignInView {
         if let user = self.signInViewModel.checkUserAccount() {
             self.emailTextField.text = user.email
             self.pwTextField.text = user.password
-            self.signInViewModel.requestSignIn(endHandler: self.signInEndHandler)
+            self.signInViewModel.requestSignIn(
+                successHandler: self.signInHandler,
+                errorHandler: self.errorHandler
+            )
         }
     }
     
-    func signInEndHandler() -> Void {
+    func signInHandler() -> Void {
         self.pushView(VC: TabBarController())
         self.signInViewModel.storeUserAccount()
+    }
+    
+    func errorHandler(title: String, message: String) -> Void {
+        let alert = Alert.init(title: title, message: message)
+        self.present(alert.showAlert(), animated: true, completion: nil)
     }
 }
 

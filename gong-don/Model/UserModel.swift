@@ -12,16 +12,21 @@ struct ErrorModel: Decodable {
     let message: String
 }
 
-struct UserModel: Decodable {
+struct SignInResponse: Decodable {
     let userId: Int
 }
 
-struct SignInModel: Encodable {
+struct SignUpResponse: Decodable {
+    let status: Int
+    let message: String
+}
+
+struct SignInModel {
     var email: String
     var password: String
 }
 
-struct SignUpModel: Encodable {
+struct SignUpModel {
     var name: String
     var email: String
     var password: String

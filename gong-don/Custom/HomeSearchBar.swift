@@ -1,5 +1,5 @@
 //
-//  SearchBar.swift
+//  HomeSearchBar.swift
 //  gong-don
 //
 //  Created by 김동규 on 2022/02/15.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomSearchBar: UISearchBar {
+class HomeSearchBar: UISearchBar {
     init() {
         super.init(frame: CGRect())
         

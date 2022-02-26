@@ -27,12 +27,14 @@ class SignUpView: UIViewController, ViewProtocol {
     let pwTextField = BindingTextField().then {
         $0.placeholder = "비밀번호(영문+숫자+특수문자 조합 8자리 이상)"
         $0.isSecureTextEntry = true
+        $0.textContentType = .oneTimeCode
         $0.tag = 1
     }
     
     let checkPwTextField = BindingTextField().then {
         $0.placeholder = "비밀번호 확인"
         $0.isSecureTextEntry = true
+        $0.textContentType = .oneTimeCode
         $0.tag = 2
     }
     
@@ -81,7 +83,15 @@ class SignUpView: UIViewController, ViewProtocol {
         
         // Sign Up
         self.signUpBtn.addAction(UIAction(handler: { _ in
-            self.signUpViewModel.requestSignUp(endHandler: self.signUpEndHandler)
+            self.signUpViewModel.requestSignUp(
+                successHandler: self.signUpHandler,
+                errorHandler: self.errorHandler
+            )
+        }), for: .touchUpInside)
+        
+        // Email Auth
+        self.emailAuthBtn.addAction(UIAction(handler: { _ in
+            self.signUpViewModel.requestEmailAuth()
         }), for: .touchUpInside)
     }
     
@@ -171,9 +181,14 @@ class SignUpView: UIViewController, ViewProtocol {
 }
 
 extension SignUpView {
-    func signUpEndHandler() {
+    func signUpHandler() {
         self.pushView(VC: TabBarController())
         self.signUpViewModel.storeUserAccount()
+    }
+    
+    func errorHandler(title: String, message: String) -> Void {
+        let alert = Alert.init(title: title, message: message)
+        self.present(alert.showAlert(), animated: true, completion: nil)
     }
 }
 
