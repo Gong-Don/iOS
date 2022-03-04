@@ -7,17 +7,12 @@
 
 import Foundation
 
-struct ErrorModel: Decodable {
-    let code: Int
-    let message: String
-}
-
 struct SignInResponse: Decodable {
     let userId: Int
 }
 
 struct SignUpResponse: Decodable {
-    let status: Int
+    let code: Int
     let message: String
 }
 
@@ -27,7 +22,8 @@ struct SignInModel {
 }
 
 struct SignUpModel {
-    var name: String
     var email: String
+    var name: String
     var password: String
+    var tokenId: String
 }

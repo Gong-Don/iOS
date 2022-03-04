@@ -47,6 +47,8 @@ class SignInView: UIViewController, ViewProtocol {
         self.setConstraints()
         
         self.setAction()
+//
+//        self.pushView(VC: TabBarController())
         
         self.checkKeyChain()
     }
@@ -67,6 +69,7 @@ class SignInView: UIViewController, ViewProtocol {
                 successHandler: self.signInHandler,
                 errorHandler: self.errorHandler
             )
+            self.signUpBtn.changeButtonMode(isChange: true, color: .blue02)
         }), for: .touchUpInside)
         
         // Sign Up
@@ -161,6 +164,8 @@ extension SignInView {
         if let user = self.signInViewModel.checkUserAccount() {
             self.emailTextField.text = user.email
             self.pwTextField.text = user.password
+            self.signInViewModel.signInModel.email = user.email
+            self.signInViewModel.signInModel.password = user.password
             self.signInViewModel.requestSignIn(
                 successHandler: self.signInHandler,
                 errorHandler: self.errorHandler
@@ -180,7 +185,6 @@ extension SignInView {
 }
 
 extension SignInView: UITextFieldDelegate {
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -197,7 +201,6 @@ extension SignInView: UITextFieldDelegate {
                 color: .blue02
             )
         }
-
         return changedAction
     }
 }

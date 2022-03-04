@@ -87,11 +87,13 @@ class SignUpView: UIViewController, ViewProtocol {
                 successHandler: self.signUpHandler,
                 errorHandler: self.errorHandler
             )
+            self.signUpBtn.changeButtonMode(isChange: true, color: .blue02)
         }), for: .touchUpInside)
         
         // Email Auth
         self.emailAuthBtn.addAction(UIAction(handler: { _ in
-            self.signUpViewModel.requestEmailAuth()
+            self.signUpViewModel.requestEmailAuth(errorHandler: self.errorHandler, endHandler: self.authEndHandler)
+            self.emailAuthBtn.changeButtonMode(isChange: true, color: .blue01)
         }), for: .touchUpInside)
     }
     
@@ -189,6 +191,16 @@ extension SignUpView {
     func errorHandler(title: String, message: String) -> Void {
         let alert = Alert.init(title: title, message: message)
         self.present(alert.showAlert(), animated: true, completion: nil)
+    }
+    
+    func authEndHandler(isSuccess: Bool) {
+//        self.emailTextField.isEnabled = false
+//        self.emailAuthBtn.changeButtonMode(isChange: false, color: .blue01)
+//        else {
+//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 300) {
+//                self.emailAuthBtn.changeButtonMode(isChange: true, color: .blue01)
+//            }
+//        }
     }
 }
 

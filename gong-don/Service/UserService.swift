@@ -49,9 +49,10 @@ struct UserService {
         let url = APIConstants.userSignUpURL
 
         let body: Parameters = [
-            "name": model.name,
             "email": model.email,
-            "password": model.password
+            "name": model.name,
+            "password": model.password,
+            "tokenId": model.tokenId
         ]
         
         RequestData().sendRequest(url: url, body: body, model: SignUpResponse.self) { response in

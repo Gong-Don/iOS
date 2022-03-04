@@ -81,6 +81,7 @@ class HomeView: UIViewController, ViewProtocol {
     func setConstraints() {
         let leftMargin: CGFloat = self.viewSideMargin / 2
         let rightMargin: CGFloat = -self.viewSideMargin / 2
+        let tabBarHeight: CGFloat =  self.tabBarController?.tabBar.frame.size.height ?? 0
         
         self.appLogoLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(100)
@@ -100,7 +101,7 @@ class HomeView: UIViewController, ViewProtocol {
         
         self.taskCollectionView.snp.makeConstraints { make in
             make.top.equalTo(self.searchBar).offset(55+self.celllineSpacing)
-            make.bottom.equalToSuperview().offset(0)
+            make.bottom.equalToSuperview().offset(-tabBarHeight)
             make.leading.equalToSuperview().offset(leftMargin)
             make.trailing.equalToSuperview().offset(rightMargin)
         }

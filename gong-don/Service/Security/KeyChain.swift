@@ -8,7 +8,7 @@
 import Foundation
 import Security
 
-struct User: Codable {
+struct UserKeyChain: Codable {
     var email: String
     var password: String
 }
@@ -17,8 +17,7 @@ final class KeyChain {
     static let shared = KeyChain()
     private let service = Bundle.main.bundleIdentifier
     
-    // 생성: 키체인 아이템 생성
-    func createUser(_ user: User) {
+    func createUser(_ user: UserKeyChain) {
         guard let data = try? JSONEncoder().encode(user),
               let service = self.service else { return }
         UserDefaults.standard.setValue(user.email, forKey: "userEmail")
@@ -33,8 +32,7 @@ final class KeyChain {
         SecItemAdd(query as CFDictionary, nil)
     }
     
-    // 조회: 키체인 아이템을 조회하고, 성공하면 User 반환
-    func readUser() -> User? {
+    func readUser() -> UserKeyChain? {
         guard let userEmail = UserDefaults.standard.string(forKey: "userEmail"),
               let service = self.service else { return nil }
         
@@ -54,15 +52,14 @@ final class KeyChain {
         
         guard let existingItem = item as? [CFString: Any],
               let data = existingItem[kSecAttrGeneric] as? Data,
-              let user = try? JSONDecoder().decode(User.self, from: data) else {
+              let user = try? JSONDecoder().decode(UserKeyChain.self, from: data) else {
                   return nil
               }
         
         return user
     }
     
-    // 수정: 키체인 아이템을 수정하고, 성공하면 true 반환
-    func updateUser(_ user: User) -> Bool {
+    func updateUser(_ user: UserKeyChain) -> Bool {
         guard let data = try? JSONEncoder().encode(user),
               let service = self.service,
               let userEmail = UserDefaults.standard.string(forKey: "userEmail") else {
@@ -84,7 +81,6 @@ final class KeyChain {
         return SecItemUpdate(query as CFDictionary, attributes as CFDictionary) == errSecSuccess
     }
     
-    // 삭제: 케체인 아이템을 삭제하고, 성공하면 true 반환
     func deleteUser() -> Bool {
         guard let userEmail = UserDefaults.standard.string(forKey: "userEmail"),
               let service = self.service else { return false }

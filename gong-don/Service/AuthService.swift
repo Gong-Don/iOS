@@ -11,7 +11,9 @@ import Alamofire
 struct AuthService {
     static let shared = AuthService()
     
-    func emailAuth(model: AuthModel) {
+    func emailAuth(model: AuthModel,
+                   errorHandler: @escaping (String, String)->Void,
+                   endHandler: @escaping (String, Bool)->Void) {
         let url = APIConstants.userAuthURL
         let body: Parameters = [ "email": model.email ]
         
@@ -19,12 +21,13 @@ struct AuthService {
             switch(response) {
             case.success(let data):
                 if let data = data as? AuthResponse {
-                    print(data.token)
+                    endHandler(data.accessToken, true)
                     print("Email Auth Success!!")
                 }
             case.pathErr:
                 print("pathErr")
             case.requestErr(let message):
+                errorHandler("잘못된 입력", "\(message)")
                 print("requestErr: \(message)")
             case.serverErr:
                 print("serverErr")

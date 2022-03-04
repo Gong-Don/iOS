@@ -8,9 +8,9 @@
 import Foundation
 
 struct AuthResponse: Decodable {
-    let token: String
+    var accessToken: String
 }
 
 struct AuthModel {
-    let email: String
+    var email: String
 }

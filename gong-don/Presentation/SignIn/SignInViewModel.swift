@@ -47,11 +47,11 @@ extension SignInViewModel {
     func storeUserAccount() {
         if KeyChain.shared.readUser() == nil {
             KeyChain.shared.createUser(
-                User(email: self.signInModel.email, password: self.signInModel.password)
+                UserKeyChain(email: self.signInModel.email, password: self.signInModel.password)
             )
         } else if KeyChain.shared.deleteUser() {
             KeyChain.shared.createUser(
-                User(email: self.signInModel.email, password: self.signInModel.password)
+                UserKeyChain(email: self.signInModel.email, password: self.signInModel.password)
             )
         }
     }
@@ -60,7 +60,7 @@ extension SignInViewModel {
         _ = KeyChain.shared.deleteUser()
     }
     
-    func checkUserAccount() -> User? {
+    func checkUserAccount() -> UserKeyChain? {
         guard let user = KeyChain.shared.readUser() else {
             return nil
         }

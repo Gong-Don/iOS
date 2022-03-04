@@ -8,22 +8,25 @@
 import Foundation
 import UIKit
 
-struct SignUpViewModel {
-    var signUpModel: SignUpModel = SignUpModel(name: "", email: "", password: "")
-    var isValidInfo: [Bool] = [false, false, false, false]  // email, pwd, pwd check, nickname
+class SignUpViewModel {
+    var signUpModel: SignUpModel = SignUpModel(email: "", name: "", password: "", tokenId: "")
+    var isValidInfo: [Bool] = [false, false, false, false, false]  // email, pwd, pwd check, nickname, token
     
     func requestSignUp(successHandler: @escaping ()->Void, errorHandler: @escaping (String, String)->Void) {
         UserService.shared.signUp(model: self.signUpModel, successHandler: successHandler, errorHandler: errorHandler)
     }
     
-    func requestEmailAuth() {
+    func requestEmailAuth(errorHandler: @escaping (String, String)->Void, endHandler: @escaping (Bool)->Void) {
         let authModel: AuthModel = AuthModel(email: self.signUpModel.email)
-        AuthService.shared.emailAuth(model: authModel)
+        AuthService.shared.emailAuth(model: authModel, errorHandler: errorHandler) { (token, isSuccess) in
+            self.signUpModel.tokenId = token
+            endHandler(isSuccess)
+        }
     }
 }
 
 extension SignUpViewModel {
-    mutating func evaluateValidation(tag: Int, test: NSPredicate = NSPredicate(), textField: BindingTextField) {
+    func evaluateValidation(tag: Int, test: NSPredicate = NSPredicate(), textField: BindingTextField) {
         let validColor = textField.actionColor.cgColor
         let invalidColor = textField.defaultColor.cgColor
         
@@ -36,7 +39,7 @@ extension SignUpViewModel {
         textField.layer.borderColor = self.isValidInfo[tag] ? validColor : invalidColor
     }
     
-    mutating func textFieldDidChange(textField: BindingTextField) -> Bool {
+    func textFieldDidChange(textField: BindingTextField) -> Bool {
         switch textField.tag {
         case 0: // email
             let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
@@ -62,7 +65,9 @@ extension SignUpViewModel {
         default: return false
         }
         
-        for valid in isValidInfo { if !valid { return false } }
+        self.isValidInfo[4] = self.signUpModel.tokenId != "" ? true : false
+        
+        for valid in self.isValidInfo { if !valid { return false } }
         
         return true
     }
@@ -72,11 +77,11 @@ extension SignUpViewModel {
     func storeUserAccount() {
         if KeyChain.shared.readUser() == nil {
             KeyChain.shared.createUser(
-                User(email: self.signUpModel.email, password: self.signUpModel.password)
+                UserKeyChain(email: self.signUpModel.email, password: self.signUpModel.password)
             )
         } else if KeyChain.shared.deleteUser() {
             KeyChain.shared.createUser(
-                User(email: self.signUpModel.email, password: self.signUpModel.password)
+                UserKeyChain(email: self.signUpModel.email, password: self.signUpModel.password)
             )
         }
     }
