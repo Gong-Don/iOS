@@ -18,6 +18,19 @@ extension UIViewController {
     }
 }
 
+// Navigation Bar Setting
+extension UIViewController {
+    func setUpNavBar() {
+        let navigationBar = self.navigationController?.navigationBar
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.shadowColor = .systemGray3
+        navigationBarAppearance.backgroundColor = .white
+        navigationBar?.scrollEdgeAppearance = navigationBarAppearance
+        navigationBar?.tintColor = .black
+        navigationBar?.topItem?.backButtonTitle = ""
+    }
+}
+
 extension UIViewController {
     func animateWithKeyboard(noti: NSNotification, animations: ((_ keyboardFrame: CGRect) -> Void)?) {
         // Extract the duration of the keyboard animation

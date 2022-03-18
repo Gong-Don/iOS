@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 class SignUpViewModel {
     var signUpModel: SignUpModel = SignUpModel(email: "", name: "", password: "", tokenId: "")

@@ -31,7 +31,9 @@ class TabBarController: UITabBarController {
         
         let firstNav = UINavigationController(rootViewController: firstTab)
         
-        setViewControllers([firstNav, secondTab, thirdTab], animated: false)
+        DispatchQueue.main.async {
+            self.setViewControllers([firstNav, secondTab, thirdTab], animated: false)
+        }
     }
     
     func setUpStyle() {

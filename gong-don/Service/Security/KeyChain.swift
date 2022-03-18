@@ -9,6 +9,7 @@ import Foundation
 import Security
 
 struct UserKeyChain: Codable {
+    var userId: Int = -1
     var email: String
     var password: String
 }

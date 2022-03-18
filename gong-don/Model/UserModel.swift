@@ -8,7 +8,7 @@
 import Foundation
 
 struct SignInResponse: Decodable {
-    let userId: Int
+    var userId: Int
 }
 
 struct SignUpResponse: Decodable {

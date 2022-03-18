@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 
 class TaskCell: UICollectionViewCell, ViewProtocol {
-    
     static let cellIdentifier: String = "TaskCell"
     
     let titleLabel: UILabel = {
@@ -51,9 +50,13 @@ class TaskCell: UICollectionViewCell, ViewProtocol {
     }
     
     func setUpView() {
-        self.contentView.addSubview(self.titleLabel)
-        self.contentView.addSubview(self.descLabel)
-        self.contentView.addSubview(self.dateLabel)
+        _ = [
+            self.titleLabel,
+            self.descLabel,
+            self.dateLabel
+        ].map { 
+            self.contentView.addSubview($0)
+        }
     }
     
     func setConstraints() {

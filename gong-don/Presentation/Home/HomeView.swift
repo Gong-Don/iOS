@@ -19,8 +19,8 @@ class HomeView: UIViewController, ViewProtocol {
         $0.textColor = .systemGray
         $0.font = UIFont.systemFont(ofSize: 17)
     }
-    
-    let searchBar: HomeSearchBar = HomeSearchBar()
+
+    let searchBar = CustomSearchController().searchBar
     
     var taskCollectionView: UICollectionView! {
         didSet {
@@ -39,7 +39,7 @@ class HomeView: UIViewController, ViewProtocol {
         }
     }
     
-    let addBtn = UIButton().then {
+    let addPostBtn = UIButton().then {
         $0.tintColor = .blue01
         $0.setImage(UIImage(systemName: "plus.circle"), for: .normal)
         $0.setPreferredSymbolConfiguration(.init(pointSize: 30, weight: .semibold, scale: .large), forImageIn: .normal)
@@ -52,16 +52,33 @@ class HomeView: UIViewController, ViewProtocol {
         self.setUpValue()
         self.setUpView()
         self.setConstraints()
+        
+        self.setAction()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    // MARK: - Action Setting Method
+    func setAction() {
+        self.addPostBtn.addAction(UIAction(handler: { _ in
+            self.pushView(VC: AddPostView())
+        }), for: .touchUpInside)
+        
+        self.searchBar.searchTextField.addAction(UIAction(handler: { _ in
+//            self.pushView(VC: SearchView())
+            self.pushView(VC: PostListView())
+        }), for: .touchDown)
     }
     
     // MARK: - View Protocol Methods
     func setUpValue() {
         self.view.backgroundColor = .white
+        
         self.navigationController?.navigationBar.isHidden = true
+        self.setUpNavBar()
         
         self.taskCollectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewFlowLayout())
     }
@@ -72,7 +89,7 @@ class HomeView: UIViewController, ViewProtocol {
             self.subTitleLabel,
             self.searchBar,
             self.taskCollectionView,
-            self.addBtn
+            self.addPostBtn
         ].map {
             self.view.addSubview($0)
         }
@@ -106,7 +123,7 @@ class HomeView: UIViewController, ViewProtocol {
             make.trailing.equalToSuperview().offset(rightMargin)
         }
         
-        self.addBtn.snp.makeConstraints { make in
+        self.addPostBtn.snp.makeConstraints { make in
             make.bottom.equalToSuperview().offset(-100)
             make.trailing.equalToSuperview().offset(rightMargin)
         }

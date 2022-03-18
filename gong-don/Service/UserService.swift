@@ -15,20 +15,19 @@ struct UserService {
     let networkFail = (title: "네트워크 연결 끊김", message: "연결을 확인하고 다시 시도하세요.")
     
     // MARK: - Sign In Service
-    func signIn(model: SignInModel, successHandler: @escaping ()->Void, errorHandler: @escaping (String, String)->Void) {
+    func signIn(model: SignInModel, errorHandler: @escaping (String, String)->Void, successHandler: @escaping (Int)->Void) {
         let url = APIConstants.userSignInURL
         let body: Parameters = [
             "email": model.email,
             "password": model.password
         ]
         
-        RequestData().sendRequest(url: url, body: body, model: SignInResponse.self) { response in
+        RequestData().sendRequest(url: url, body: body, method: .post, model: SignInResponse.self) { response in
             switch(response) {
             case.success(let data):
                 if let data = data as? SignInResponse {
                     print("Sign In Success!!")
-                    print(data.userId)
-                    successHandler()
+                    successHandler(data.userId)
                 }
             case.pathErr:
                 print("pathErr")
@@ -55,7 +54,7 @@ struct UserService {
             "tokenId": model.tokenId
         ]
         
-        RequestData().sendRequest(url: url, body: body, model: SignUpResponse.self) { response in
+        RequestData().sendRequest(url: url, body: body, method: .post, model: SignUpResponse.self) { response in
             switch(response) {
             case.success(let data):
                 if let data = data as? SignUpResponse {

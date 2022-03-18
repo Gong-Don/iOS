@@ -7,17 +7,21 @@
 
 import Foundation
 
-struct SignInViewModel {
+class SignInViewModel {
     var signInModel: SignInModel = SignInModel(email: "", password: "")
+    var signInResponse: SignInResponse = SignInResponse(userId: -1)
     var isValidInfo: [Bool] = [false, false]  // email, pwd
     
     func requestSignIn(successHandler: @escaping ()->Void, errorHandler: @escaping (String, String)->Void) {
-        UserService.shared.signIn(model: self.signInModel, successHandler: successHandler, errorHandler: errorHandler)
+        UserService.shared.signIn(model: self.signInModel, errorHandler: errorHandler) { userId in
+            self.signInResponse.userId = userId
+            successHandler()
+        }
     }
 }
 
 extension SignInViewModel {
-    mutating func evaluateValidation(tag: Int, test: NSPredicate, textField: BindingTextField) {
+    func evaluateValidation(tag: Int, test: NSPredicate, textField: BindingTextField) {
         let validColor = textField.actionColor.cgColor
         let invalidColor = textField.defaultColor.cgColor
         
@@ -25,7 +29,7 @@ extension SignInViewModel {
         textField.layer.borderColor = self.isValidInfo[tag] ? validColor : invalidColor
     }
         
-    mutating func textFieldDidChange(textField: BindingTextField) -> Bool {
+    func textFieldDidChange(textField: BindingTextField) -> Bool {
         if textField.tag == 0 {
             let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
             let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
@@ -45,14 +49,14 @@ extension SignInViewModel {
 
 extension SignInViewModel {
     func storeUserAccount() {
+        let user = UserKeyChain(userId: self.signInResponse.userId,
+                                email: self.signInModel.email,
+                                password: self.signInModel.password)
+        
         if KeyChain.shared.readUser() == nil {
-            KeyChain.shared.createUser(
-                UserKeyChain(email: self.signInModel.email, password: self.signInModel.password)
-            )
+            KeyChain.shared.createUser(user)
         } else if KeyChain.shared.deleteUser() {
-            KeyChain.shared.createUser(
-                UserKeyChain(email: self.signInModel.email, password: self.signInModel.password)
-            )
+            KeyChain.shared.createUser(user)
         }
     }
     
@@ -64,10 +68,7 @@ extension SignInViewModel {
         guard let user = KeyChain.shared.readUser() else {
             return nil
         }
-        if user.password == "" {
-            return nil
-        } else {
-            return user
-        }
+  
+        return user
     }
 }

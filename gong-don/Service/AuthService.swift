@@ -17,7 +17,7 @@ struct AuthService {
         let url = APIConstants.userAuthURL
         let body: Parameters = [ "email": model.email ]
         
-        RequestData().sendRequest(url: url, body: body, model: AuthResponse.self) { response in
+        RequestData().sendRequest(url: url, body: body, method: .post,model: AuthResponse.self) { response in
             switch(response) {
             case.success(let data):
                 if let data = data as? AuthResponse {

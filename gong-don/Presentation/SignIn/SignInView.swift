@@ -47,8 +47,6 @@ class SignInView: UIViewController, ViewProtocol {
         self.setConstraints()
         
         self.setAction()
-//
-//        self.pushView(VC: TabBarController())
         
         self.checkKeyChain()
     }
@@ -83,14 +81,7 @@ class SignInView: UIViewController, ViewProtocol {
         self.view.backgroundColor = .white
         self.title = "로그인"
         
-        // NavigationBar Setting
-        let navigationBar = self.navigationController?.navigationBar
-        let navigationBarAppearance = UINavigationBarAppearance()
-        navigationBarAppearance.shadowColor = .systemGray3
-        navigationBarAppearance.backgroundColor = .white
-        navigationBar?.scrollEdgeAppearance = navigationBarAppearance
-        navigationBar?.tintColor = .black
-        navigationBar?.topItem?.backButtonTitle = ""
+        self.setUpNavBar()
     }
     
     func setUpView() {

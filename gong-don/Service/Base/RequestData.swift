@@ -9,13 +9,14 @@ import Alamofire
 
 struct RequestData {
     
-    func sendRequest<T:Decodable>(url: String, body: Parameters, model: T.Type,
+    func sendRequest<T:Decodable>(url: String, body: Parameters?, method: HTTPMethod, model: T.Type,
                                   completion: @escaping (NetworkResult<Any>) -> Void) {
         
         let header: HTTPHeaders = [ "Content-Type":"application/json" ]
-        
+ 
         let dataRequest = AF.request (
-            url, method: .post,
+            url,
+            method: method,
             parameters: body,
             encoding: JSONEncoding.default,
             headers: header
