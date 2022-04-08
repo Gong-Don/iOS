@@ -6,16 +6,22 @@
 //
 
 import Foundation
+import Photos
 
-struct AddPostViewModel {
-    var addPostModel: AddPostModel = AddPostModel(category: "", content: "", price: -1, title: "", wrtId: nil)
+class AddPostViewModel {
+    var addPostModel: AddPostModel = AddPostModel(category: "", content: "", fileUrls: [], price: -1, tags: [], title: "", wrtId: nil)
     
-    mutating func requestAddPost() {
+    var fetchResult: PHFetchResult<PHAsset>!
+    let imageManager: PHCachingImageManager = PHCachingImageManager()
+    
+    func requestAddPost() {
         guard let wrtId = self.getUserId() else {
             return
         }
-                
+        
         self.addPostModel.wrtId = wrtId
+        self.addPostModel.tags = TagList.shared.tagList
+        TagList.shared.tagList = []
         PostService.shared.addPost(model: self.addPostModel)
     }
 }
@@ -37,20 +43,18 @@ extension AddPostViewModel {
         return false
     }
     
-    mutating func textFieldDidChange(textField: BindingTextField) {
-        switch(textField.tag) {
+    func textFieldDidChange(text: String, tag: Int) {
+        switch(tag) {
         case 0:
-            self.addPostModel.title = textField.text ?? ""
+            self.addPostModel.title = text
         case 1:
-            if let text = textField.text {
-                self.addPostModel.price = Int(text) ?? -1
-            }
+            self.addPostModel.price = Int(text) ?? -1
         default:
             print("Wrong tag")
         }
     }
     
-    mutating func setCategory(title: String) {
+    func setCategory(title: String) {
         var category: String
         
         switch (title) {
@@ -65,4 +69,34 @@ extension AddPostViewModel {
         
         self.addPostModel.category = category
     }
+}
+
+// photo
+extension AddPostViewModel {
+//    func aurhorizePhotoAccess() {
+//        let photoAurhorizationStatus = PHPhotoLibrary.authorizationStatus()
+//        
+//        switch photoAurhorizationStatus {
+//        case .notDetermined:
+//            print("응답 안함")
+//            PHPhotoLibrary.requestAuthorization({ (status) in
+//               switch status {
+//               case .denied:
+//                   print("접근 불허")
+//               case .authorized:
+//                   print("접근 허용")
+//               default: break
+//               }
+//           })
+//        case .restricted:
+//            print("접근 제한")
+//        case .denied:
+//            print("접근 불허")
+//        case .authorized:
+//            print("접근 허용")
+//        case .limited:
+//            print("제한된 접근 허용")
+//        default: break
+//        }
+//    }
 }

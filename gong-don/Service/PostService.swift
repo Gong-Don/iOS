@@ -46,7 +46,8 @@ struct PostService {
             "content": model.content,
             "price": model.price,
             "title": model.title,
-            "wrtId": model.wrtId!
+            "wrtId": model.wrtId!,
+            "tags": model.tags
         ]
         
         RequestData().sendRequest(url: url, body: body, method: .post, model: AddPostResponse.self) { response in

@@ -34,6 +34,14 @@ extension UIButton {
         if hover { self.setTitleColor(color.withAlphaComponent(0.5), for: .highlighted) }
     }
     
+    func setShadow() {
+        self.layer.shadowColor = UIColor.systemGray2.cgColor
+        self.layer.shadowOpacity = 1
+        self.layer.shadowRadius = 2
+        self.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        self.layer.shadowPath = nil
+    }
+    
     func changeButtonMode(isChange: Bool, color: UIColor) {
         if isChange {
             self.backgroundColor = color

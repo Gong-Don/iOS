@@ -21,4 +21,9 @@ struct APIConstants {
     static let getCategoryPostListURL = baseURL + "/api/post/category"
     // 글 등록
     static let postURL = baseURL + "/api/post"
+    // 태그 목록 가져오기
+    static let tagURL = baseURL + "/api/tag/all"
+    // 파일 추가
+    static let fileURL = baseURL + "/api/file"
+    // 파일 삭제
 }

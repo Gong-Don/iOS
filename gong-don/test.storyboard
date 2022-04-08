@@ -6,6 +6,7 @@
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -17,50 +18,76 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NXp-LG-4LZ">
-                                <rect key="frame" x="20" y="64" width="374" height="729"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0fw-36-qCe">
+                                <rect key="frame" x="20" y="64" width="374" height="249"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dlo-Py-87x">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Title" id="Wvx-QI-Jev">
-                                        <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="phu-uR-aRJ">
-                                            <imageReference key="image" image="xmark" catalog="system" symbolScale="large"/>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ns7-of-B5R">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="9aU-sL-P2L">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="S3H-VS-T8P">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <stackView opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" translatesAutoresizingMaskIntoConstraints="NO" id="5pH-MS-jfC">
+                                <rect key="frame" x="20" y="745" width="150" height="48"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6iN-BK-gy5">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="r4t-xT-9OH"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="li3-1s-0zj">
+                                        <rect key="frame" x="50" y="0.0" width="50" height="48"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R1P-j6-s0s">
+                                        <rect key="frame" x="100" y="0.0" width="50" height="48"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="NXp-LG-4LZ" secondAttribute="bottom" constant="20" id="4Of-lu-boc"/>
-                            <constraint firstItem="NXp-LG-4LZ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="RoY-Yo-FLu"/>
-                            <constraint firstItem="NXp-LG-4LZ" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="jHy-WD-RCn"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="NXp-LG-4LZ" secondAttribute="trailing" constant="20" id="zJd-ct-tQy"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="5pH-MS-jfC" secondAttribute="bottom" constant="20" id="FGI-aG-at5"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="0fw-36-qCe" secondAttribute="bottom" constant="500" id="PS0-6k-JX0"/>
+                            <constraint firstItem="0fw-36-qCe" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="SFv-Fu-JOX"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="0fw-36-qCe" secondAttribute="trailing" constant="20" id="TlT-EL-6wR"/>
+                            <constraint firstItem="0fw-36-qCe" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="hBB-we-lw5"/>
+                            <constraint firstItem="5pH-MS-jfC" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="wzf-2g-n7H"/>
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem title="Item" image="sportscourt" catalog="system" id="67V-p0-hCI"/>
+                        <barButtonItem title="Item" id="67V-p0-hCI">
+                            <imageReference key="image" image="plus" catalog="system" symbolScale="large"/>
+                        </barButtonItem>
+                        <barButtonItem title="추가" id="QiY-Nf-BaM"/>
                     </toolbarItems>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="129" y="82"/>
+            <point key="canvasLocation" x="128.98550724637681" y="81.696428571428569"/>
         </scene>
     </scenes>
     <resources>
-        <image name="sportscourt" catalog="system" width="128" height="84"/>
-        <image name="xmark" catalog="system" width="128" height="113"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

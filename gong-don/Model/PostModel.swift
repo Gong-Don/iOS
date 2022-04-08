@@ -20,12 +20,15 @@ struct PostModel: Decodable {
     let likeCnt: Int
     let date: String
     let matchingStatus: Bool
+    let fileUrls: [String]
 }
 
 struct AddPostModel {
     var category: String
     var content: String
+    var fileUrls: [String]
     var price: Int
+    var tags: [String]
     var title: String
     var wrtId: Int?
 }

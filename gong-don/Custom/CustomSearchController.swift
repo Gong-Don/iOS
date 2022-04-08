@@ -37,12 +37,12 @@ class CustomSearchController: UISearchController {
         self.searchBar.layer.borderColor =  UIColor.blue01.cgColor
     }
     
-    func changeStyle() {
+    func changeStyle(color: UIColor = .blue01) {
         self.searchBar.layer.borderWidth = 0
         
         self.searchBar.searchTextField.layer.borderWidth = 2
         self.searchBar.searchTextField.layer.cornerRadius = 10
-        self.searchBar.searchTextField.layer.borderColor =  UIColor.blue01.cgColor
+        self.searchBar.searchTextField.layer.borderColor =  color.cgColor
     }
 }
 

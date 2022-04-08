@@ -18,6 +18,8 @@ class PostDetailView: UIViewController, ViewProtocol {
     
     let descLabel = UILabel()
     
+    let tagLabel = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
